@@ -41,3 +41,26 @@ body { font-family: var(--font-sans); color: var(--color-ink); }
 
 /* Atribución del mapa (Leaflet): enlaces distinguibles sin depender solo del color (a11y). */
 .leaflet-control-attribution a { text-decoration: underline; }
+
+/* ── Animaciones y micro-interacciones ─────────────────────── */
+
+/* Skeleton con shimmer (estado de carga) */
+@keyframes klk-shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.klk-skeleton {
+  background: linear-gradient(90deg, var(--color-paper-2) 25%, var(--color-line) 37%, var(--color-paper-2) 63%);
+  background-size: 200% 100%;
+  animation: klk-shimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* Transiciones suaves de los marcadores del mapa */
+.leaflet-interactive { transition: stroke-width .2s ease, fill-opacity .25s ease; }
+
+/* Pulso para puntos con incidencia / fichaje en vivo */
+@keyframes klk-pulse { 0%, 100% { fill-opacity: .10; } 50% { fill-opacity: .30; } }
+.klk-pulse { animation: klk-pulse 1.8s ease-in-out infinite; }
+
+/* Respeta a quien reduce el movimiento (accesibilidad) */
+@media (prefers-reduced-motion: reduce) {
+  .klk-skeleton, .klk-pulse, .leaflet-interactive { animation: none !important; transition: none !important; }
+}

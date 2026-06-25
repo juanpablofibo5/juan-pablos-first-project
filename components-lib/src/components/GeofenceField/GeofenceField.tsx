@@ -41,7 +41,7 @@ export function GeofenceField({
   }`;
 
   return (
-    <div className={`overflow-hidden rounded-[14px] border ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"} ${disabled ? "opacity-70" : ""}`}>
+    <div className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"} ${disabled ? "opacity-70" : ""}`}>
       {/* Barra superior */}
       <div className={`flex items-center justify-between border-b px-4 py-2.5 ${dark ? "border-ink-700" : "border-line"}`}>
         <h3 className={`font-display text-sm font-semibold ${dark ? "text-paper" : "text-ink"}`}>Editar geocerco</h3>

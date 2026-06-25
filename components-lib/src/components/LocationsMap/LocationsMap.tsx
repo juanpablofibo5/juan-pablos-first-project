@@ -22,7 +22,7 @@ function Shell({ theme, children }: { theme: "light" | "dark"; children: React.R
   const dark = theme === "dark";
   return (
     <div
-      className={`overflow-hidden rounded-[14px] border ${
+      className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${
         dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"
       }`}
     >
@@ -72,12 +72,22 @@ export function LocationsMap({
   if (loading) {
     return (
       <Shell theme={theme}>
-        <Centered dark={dark}>
-          <div role="status" aria-busy="true" className="flex flex-col items-center gap-3">
-            <span className="h-7 w-7 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-            <span className="font-mono text-xs">Cargando mapa…</span>
+        <div
+          role="status"
+          aria-busy="true"
+          aria-label="Cargando ubicaciones"
+          className="grid h-[380px] grid-cols-1 sm:grid-cols-[220px_1fr]"
+        >
+          <div className={`hidden flex-col gap-3 border-r p-3 sm:flex ${dark ? "border-ink-700" : "border-line"}`}>
+            {[0, 1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex items-center gap-2 py-1">
+                <div className="klk-skeleton h-2.5 w-2.5 rounded-full" />
+                <div className="klk-skeleton h-3 flex-1" />
+              </div>
+            ))}
           </div>
-        </Centered>
+          <div className="klk-skeleton h-full w-full" />
+        </div>
       </Shell>
     );
   }
@@ -156,7 +166,11 @@ export function LocationsMap({
             return (
               <div key={p.id}>
                 {/* Geocerco en metros: se escala solo con el zoom. */}
-                <Circle center={[p.lat, p.lng]} radius={p.radio} pathOptions={{ color, weight: 1, fillOpacity: active ? 0.18 : 0.08 }} />
+                <Circle
+                  center={[p.lat, p.lng]}
+                  radius={p.radio}
+                  pathOptions={{ color, weight: 1, fillOpacity: active ? 0.18 : 0.08, className: p.estado === "incidencia" ? "klk-pulse" : "" }}
+                />
                 <CircleMarker
                   center={[p.lat, p.lng]}
                   radius={active ? 11 : 8}
