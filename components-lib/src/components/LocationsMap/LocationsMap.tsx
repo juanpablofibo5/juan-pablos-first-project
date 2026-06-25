@@ -35,7 +35,7 @@ function Shell({ theme, children }: { theme: "light" | "dark"; children: React.R
           {ORDER.map((s) => (
             <li key={s} className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full" style={{ background: STATUS[s].color }} aria-hidden />
-              <span className={`font-mono text-[11px] ${dark ? "text-taupe" : "text-ink-soft"}`}>{STATUS[s].label}</span>
+              <span className={`font-mono text-xs ${dark ? "text-taupe" : "text-ink"}`}>{STATUS[s].label}</span>
             </li>
           ))}
         </ul>
@@ -138,7 +138,7 @@ export function LocationsMap({
                 >
                   <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: STATUS[p.estado].color }} aria-hidden />
                   <span className="flex-1 truncate text-sm font-medium">{p.nombre}</span>
-                  <span className={`font-mono text-[10px] ${dark ? "text-taupe" : "text-ink-soft"}`}>{STATUS[p.estado].label}</span>
+                  <span className={`font-mono text-xs ${dark ? "text-taupe" : "text-ink"}`}>{STATUS[p.estado].label}</span>
                 </button>
               </li>
             );

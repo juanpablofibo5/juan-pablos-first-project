@@ -38,3 +38,6 @@
 }
 
 body { font-family: var(--font-sans); color: var(--color-ink); }
+
+/* Atribución del mapa (Leaflet): enlaces distinguibles sin depender solo del color (a11y). */
+.leaflet-control-attribution a { text-decoration: underline; }
