@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Circle, Marker } from "react-leaflet";
 import L from "leaflet";
 import type { GeofenceFieldProps, GeofenceValue } from "./types";
+import { AutoInvalidateSize } from "../shared/AutoInvalidateSize";
 
 const TILES = {
   light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -52,6 +53,7 @@ export function GeofenceField({
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_240px]">
         {/* Mapa con pin arrastrable */}
         <MapContainer center={[value.lat, value.lng]} zoom={zoom} className="h-[320px] w-full" style={{ background: dark ? "#1c1c1a" : "#f6f5f3" }}>
+          <AutoInvalidateSize />
           <TileLayer url={dark ? TILES.dark : TILES.light} attribution={ATTR} />
           <Circle center={[value.lat, value.lng]} radius={value.radio} pathOptions={{ color: invalid ? "#b5482f" : "#3a5688", weight: 1.5, fillOpacity: 0.12 }} />
           <Marker

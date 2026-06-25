@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MapContainer, TileLayer, Circle, CircleMarker, Tooltip } from "react-leaflet";
 import type { LocationsMapProps, PointStatus } from "./types";
+import { AutoInvalidateSize } from "../shared/AutoInvalidateSize";
 
 // Estado del punto: SIEMPRE con etiqueta de texto, nunca solo color (accesibilidad).
 const STATUS: Record<PointStatus, { label: string; color: string }> = {
@@ -147,6 +148,7 @@ export function LocationsMap({
 
         {/* Mapa */}
         <MapContainer center={mapCenter} zoom={zoom} className="h-full w-full" style={{ background: dark ? "#1c1c1a" : "#f6f5f3" }}>
+          <AutoInvalidateSize />
           <TileLayer url={dark ? TILES.dark : TILES.light} attribution={ATTR} />
           {points.map((p) => {
             const active = selectedId === p.id || hoveredId === p.id;
