@@ -1,8 +1,18 @@
-import { useState } from "react";
-import { MapContainer, TileLayer, Circle, Marker } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Circle, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import type { GeofenceFieldProps, GeofenceValue } from "./types";
 import { AutoInvalidateSize } from "../shared/AutoInvalidateSize";
+
+/** Centra el mapa en el objetivo cuando cambia `trigger` (botón "Centrar"). */
+function RecenterControl({ target, trigger }: { target: [number, number]; trigger: number }) {
+  const map = useMap();
+  useEffect(() => {
+    if (trigger > 0) map.flyTo(target, map.getZoom(), { duration: 0.5 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trigger]);
+  return null;
+}
 
 const TILES = {
   light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -30,6 +40,7 @@ export function GeofenceField({
   theme = "light",
 }: GeofenceFieldProps) {
   const [dragging, setDragging] = useState(false);
+  const [recenter, setRecenter] = useState(0);
   const dark = theme === "dark";
 
   const invalid = value.radio < minRadio || value.radio > maxRadio;
@@ -54,8 +65,9 @@ export function GeofenceField({
         {/* Mapa con pin arrastrable */}
         <MapContainer center={[value.lat, value.lng]} zoom={zoom} className="h-[320px] w-full" style={{ background: dark ? "#1c1c1a" : "#f6f5f3" }}>
           <AutoInvalidateSize />
+          <RecenterControl target={[value.lat, value.lng]} trigger={recenter} />
           <TileLayer url={dark ? TILES.dark : TILES.light} attribution={ATTR} />
-          <Circle center={[value.lat, value.lng]} radius={value.radio} pathOptions={{ color: invalid ? "#b5482f" : "#3a5688", weight: 1.5, fillOpacity: 0.12 }} />
+          <Circle center={[value.lat, value.lng]} radius={value.radio} pathOptions={{ color: invalid ? "#b5482f" : "#3a5688", weight: dragging ? 3 : 1.5, fillOpacity: dragging ? 0.18 : 0.12 }} />
           <Marker
             position={[value.lat, value.lng]}
             draggable={!disabled}
@@ -123,6 +135,21 @@ export function GeofenceField({
               <input id="gf-lng" type="number" step="0.0001" value={value.lng} disabled={disabled} onChange={(e) => set({ lng: Number(e.target.value) })} className={fieldBase} />
             </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setRecenter((n) => n + 1)}
+            disabled={disabled}
+            className={`flex items-center justify-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition hover:bg-taupe/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
+              dark ? "border-ink-700 text-paper" : "border-line text-ink"
+            }`}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+            Centrar en el pin
+          </button>
 
           <p className={`text-xs ${dark ? "text-taupe" : "text-ink-soft"}`}>
             Arrastra el pin en el mapa o edita los campos.
