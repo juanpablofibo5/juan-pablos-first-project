@@ -30,4 +30,8 @@ export interface LocationsMapProps {
   loading?: boolean;
   /** Mensaje de error (si existe, muestra estado de error). */
   error?: string;
+  /** Si se provee, el estado de error muestra un botón "Reintentar". */
+  onRetry?: () => void;
+  /** Si se provee, el estado vacío muestra un botón "Agregar ubicación". */
+  onAddLocation?: () => void;
 }

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { MapContainer, TileLayer, Circle, CircleMarker, Tooltip } from "react-leaflet";
-import type { LocationsMapProps, PointStatus } from "./types";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Circle, CircleMarker, Tooltip, useMap } from "react-leaflet";
+import type { LocationsMapProps, MapPoint, PointStatus } from "./types";
 import { AutoInvalidateSize } from "../shared/AutoInvalidateSize";
 
 // Estado del punto: SIEMPRE con etiqueta de texto, nunca solo color (accesibilidad).
@@ -55,6 +55,30 @@ function Centered({ dark, children }: { dark: boolean; children: React.ReactNode
   );
 }
 
+/** Mueve el mapa suavemente al punto seleccionado. */
+function FlyToSelected({ points, selectedId }: { points: MapPoint[]; selectedId?: string }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!selectedId) return;
+    const p = points.find((x) => x.id === selectedId);
+    if (p) map.flyTo([p.lat, p.lng], Math.max(map.getZoom(), 15), { duration: 0.6 });
+  }, [selectedId, points, map]);
+  return null;
+}
+
+/** Botón de acción del componente. */
+function ActionButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="mt-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-paper shadow-sm transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+    >
+      {children}
+    </button>
+  );
+}
+
 export function LocationsMap({
   points,
   onSelectPoint,
@@ -64,6 +88,8 @@ export function LocationsMap({
   theme = "light",
   loading = false,
   error,
+  onRetry,
+  onAddLocation,
 }: LocationsMapProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const dark = theme === "dark";
@@ -97,10 +123,17 @@ export function LocationsMap({
     return (
       <Shell theme={theme}>
         <Centered dark={dark}>
-          <div role="alert" className="flex max-w-xs flex-col items-center gap-1.5 text-center">
-            <span aria-hidden className="text-2xl text-terracotta">⚠</span>
-            <p className="font-display font-semibold">No se pudo cargar el mapa</p>
-            <p className="text-sm opacity-80">{error}</p>
+          <div role="alert" className="flex max-w-xs flex-col items-center gap-3 text-center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden className="text-terracotta">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" opacity="0.35" />
+              <path d="M12 7.5v5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              <circle cx="12" cy="16" r="1" fill="currentColor" />
+            </svg>
+            <div>
+              <p className="font-display font-semibold">No se pudo cargar el mapa</p>
+              <p className="mt-1 text-sm opacity-80">{error}</p>
+            </div>
+            {onRetry && <ActionButton onClick={onRetry}>Reintentar</ActionButton>}
           </div>
         </Centered>
       </Shell>
@@ -112,10 +145,16 @@ export function LocationsMap({
     return (
       <Shell theme={theme}>
         <Centered dark={dark}>
-          <div className="flex flex-col items-center gap-1.5 text-center">
-            <span aria-hidden className="text-2xl">📍</span>
-            <p className="font-display font-semibold">Aún no hay ubicaciones</p>
-            <p className="text-sm opacity-80">Agrega un punto para verlo en el mapa.</p>
+          <div className="flex max-w-xs flex-col items-center gap-3 text-center">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" aria-hidden className="text-accent">
+              <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" stroke="currentColor" strokeWidth="1.4" strokeDasharray="3 2.5" opacity="0.55" />
+              <circle cx="12" cy="10" r="2.2" fill="currentColor" opacity="0.55" />
+            </svg>
+            <div>
+              <p className="font-display font-semibold">Aún no hay ubicaciones</p>
+              <p className="mt-1 text-sm opacity-80">Agrega tu primera sucursal para verla en el mapa.</p>
+            </div>
+            {onAddLocation && <ActionButton onClick={onAddLocation}>Agregar ubicación</ActionButton>}
           </div>
         </Centered>
       </Shell>
@@ -159,6 +198,7 @@ export function LocationsMap({
         {/* Mapa */}
         <MapContainer center={mapCenter} zoom={zoom} className="h-full w-full" style={{ background: dark ? "#1c1c1a" : "#f6f5f3" }}>
           <AutoInvalidateSize />
+          <FlyToSelected points={points} selectedId={selectedId} />
           <TileLayer url={dark ? TILES.dark : TILES.light} attribution={ATTR} />
           {points.map((p) => {
             const active = selectedId === p.id || hoveredId === p.id;

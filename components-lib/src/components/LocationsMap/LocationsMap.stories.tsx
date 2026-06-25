@@ -22,8 +22,8 @@ type Story = StoryObj<typeof LocationsMap>;
 // --- Una historia por estado ---
 export const CasoFeliz: Story = { args: { points: puntosMerida, zoom: 13 } };
 export const Cargando: Story = { args: { points: [], loading: true } };
-export const SinPuntos: Story = { args: { points: [] } };
-export const ConError: Story = { args: { points: [], error: "No hay conexión con el servidor." } };
+export const SinPuntos: Story = { args: { points: [], onAddLocation: () => console.log("agregar ubicación") } };
+export const ConError: Story = { args: { points: [], error: "No hay conexión con el servidor.", onRetry: () => console.log("reintentar") } };
 export const Seleccionado: Story = { args: { points: puntosMerida, selectedId: "3", zoom: 13 } };
 export const ModoOscuro: Story = { args: { points: puntosMerida, theme: "dark", zoom: 13 } };
 
