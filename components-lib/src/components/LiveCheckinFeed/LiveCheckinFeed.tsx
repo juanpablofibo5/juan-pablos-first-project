@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import type { CheckinEvent, CheckinStatus, LiveCheckinFeedProps } from "./types";
 
 // Estado del fichaje: SIEMPRE con etiqueta de texto, nunca solo color (accesibilidad).
-const ESTADO: Record<CheckinStatus, { label: string; color: string }> = {
-  a_tiempo: { label: "A tiempo", color: "#4b7a5a" },
-  retardo: { label: "Retardo", color: "#b07d2b" },
-  fuera_geocerco: { label: "Fuera de geocerco", color: "#b5482f" },
-  no_show: { label: "No-show", color: "#57544e" },
+const ESTADO: Record<CheckinStatus, { label: string; color: string; text: string }> = {
+  a_tiempo: { label: "A tiempo", color: "#4b7a5a", text: "#2f5a3f" },
+  retardo: { label: "Retardo", color: "#b07d2b", text: "#6f4d16" },
+  fuera_geocerco: { label: "Fuera de geocerco", color: "#b5482f", text: "#8a3422" },
+  no_show: { label: "No-show", color: "#57544e", text: "#3a3833" },
 };
 
 /** Hora relativa: "ahora", "hace 2 min", "hace 1 h"… */
@@ -26,12 +26,12 @@ function iniciales(nombre: string): string {
   return nombre.trim().split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? "").join("");
 }
 
-function Pill({ estado }: { estado: CheckinStatus }) {
-  const { label, color } = ESTADO[estado];
+function Pill({ estado, dark }: { estado: CheckinStatus; dark: boolean }) {
+  const { label, color, text } = ESTADO[estado];
   return (
     <span
       className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium"
-      style={{ color, background: `${color}1A` }}
+      style={{ color: dark ? "#fdfdfc" : text, background: dark ? `${color}40` : `${color}1A` }}
     >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} aria-hidden />
       {label}
@@ -64,7 +64,7 @@ function Row({ ev, now, onClick, dark }: { ev: CheckinEvent; now: number; onClic
             {ev.sucursal ? ` · ${ev.sucursal}` : ""}
           </span>
         </span>
-        <Pill estado={ev.estado} />
+        <Pill estado={ev.estado} dark={dark} />
         <time className={`shrink-0 font-mono text-xs tabular-nums ${dark ? "text-taupe" : "text-ink-soft"}`}>
           {relativo(ev.timestamp, now)}
         </time>
