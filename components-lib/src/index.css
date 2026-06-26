@@ -68,7 +68,11 @@ body { font-family: var(--font-sans); color: var(--color-ink); }
 @keyframes klk-enter { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 .klk-enter { animation: klk-enter .35s ease-out; }
 
+/* Crecimiento horizontal (segmentos de barras data-viz); termina SIEMPRE visible */
+@keyframes klk-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.klk-grow { transform-origin: left center; animation: klk-grow .6s ease-out; }
+
 /* Respeta a quien reduce el movimiento (accesibilidad) */
 @media (prefers-reduced-motion: reduce) {
-  .klk-skeleton, .klk-pulse, .klk-livedot, .klk-enter, .leaflet-interactive { animation: none !important; transition: none !important; }
+  .klk-skeleton, .klk-pulse, .klk-livedot, .klk-enter, .klk-grow, .leaflet-interactive { animation: none !important; transition: none !important; }
 }
