@@ -36,4 +36,4 @@ const muchos: MapPoint[] = Array.from({ length: 60 }, (_, i) => ({
   radio: 80 + (i % 5) * 30,
   estado: (["activo", "inactivo", "incidencia"] as const)[i % 3],
 }));
-export const MuchosPuntos: Story = { args: { points: muchos, zoom: 12 } };
+export const MuchosPuntos: Story = { args: { points: muchos, zoom: 11, cluster: true } };

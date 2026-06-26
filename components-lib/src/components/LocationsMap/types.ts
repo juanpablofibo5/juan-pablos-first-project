@@ -34,4 +34,6 @@ export interface LocationsMapProps {
   onRetry?: () => void;
   /** Si se provee, el estado vacío muestra un botón "Agregar ubicación". */
   onAddLocation?: () => void;
+  /** Agrupa marcadores cercanos en clústers (útil con muchos puntos). */
+  cluster?: boolean;
 }

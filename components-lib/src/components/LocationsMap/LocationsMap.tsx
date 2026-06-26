@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Circle, CircleMarker, Tooltip, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Circle, CircleMarker, Marker, Tooltip, useMap } from "react-leaflet";
+import L from "leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import type { LocationsMapProps, MapPoint, PointStatus } from "./types";
 import { AutoInvalidateSize } from "../shared/AutoInvalidateSize";
 
@@ -10,6 +12,17 @@ const STATUS: Record<PointStatus, { label: string; color: string }> = {
   incidencia: { label: "Incidencia", color: "#b5482f" },
 };
 const ORDER: PointStatus[] = ["activo", "inactivo", "incidencia"];
+
+// Marcador como divIcon (para modo clúster, que agrupa marcadores L.Marker).
+const statusIcon = (color: string, active: boolean) => {
+  const s = active ? 20 : 15;
+  return L.divIcon({
+    className: "",
+    html: `<span style="display:block;width:${s}px;height:${s}px;border-radius:9999px;background:${color};border:2px solid #fdfdfc;box-shadow:0 1px 4px rgba(28,28,26,.35)"></span>`,
+    iconSize: [s, s],
+    iconAnchor: [s / 2, s / 2],
+  });
+};
 
 const TILES = {
   light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -90,6 +103,7 @@ export function LocationsMap({
   error,
   onRetry,
   onAddLocation,
+  cluster = false,
 }: LocationsMapProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const dark = theme === "dark";
@@ -200,34 +214,51 @@ export function LocationsMap({
           <AutoInvalidateSize />
           <FlyToSelected points={points} selectedId={selectedId} />
           <TileLayer url={dark ? TILES.dark : TILES.light} attribution={ATTR} />
-          {points.map((p) => {
-            const active = selectedId === p.id || hoveredId === p.id;
-            const { color, label } = STATUS[p.estado];
-            return (
-              <div key={p.id}>
-                {/* Geocerco en metros: se escala solo con el zoom. */}
-                <Circle
-                  center={[p.lat, p.lng]}
-                  radius={p.radio}
-                  pathOptions={{ color, weight: 1, fillOpacity: active ? 0.18 : 0.08, className: p.estado === "incidencia" ? "klk-pulse" : "" }}
-                />
-                <CircleMarker
-                  center={[p.lat, p.lng]}
-                  radius={active ? 11 : 8}
-                  pathOptions={{ color: dark ? "#1c1c1a" : "#fdfdfc", weight: 2, fillColor: color, fillOpacity: 1 }}
-                  eventHandlers={{
-                    click: () => onSelectPoint?.(p.id),
-                    mouseover: () => setHoveredId(p.id),
-                    mouseout: () => setHoveredId(null),
-                  }}
+          {cluster ? (
+            <MarkerClusterGroup chunkedLoading>
+              {points.map((p) => (
+                <Marker
+                  key={p.id}
+                  position={[p.lat, p.lng]}
+                  icon={statusIcon(STATUS[p.estado].color, selectedId === p.id)}
+                  eventHandlers={{ click: () => onSelectPoint?.(p.id) }}
                 >
                   <Tooltip direction="top" offset={[0, -8]}>
-                    <span className="font-medium">{p.nombre}</span> — {label}
+                    <span className="font-medium">{p.nombre}</span> — {STATUS[p.estado].label}
                   </Tooltip>
-                </CircleMarker>
-              </div>
-            );
-          })}
+                </Marker>
+              ))}
+            </MarkerClusterGroup>
+          ) : (
+            points.map((p) => {
+              const active = selectedId === p.id || hoveredId === p.id;
+              const { color, label } = STATUS[p.estado];
+              return (
+                <div key={p.id}>
+                  {/* Geocerco en metros: se escala solo con el zoom. */}
+                  <Circle
+                    center={[p.lat, p.lng]}
+                    radius={p.radio}
+                    pathOptions={{ color, weight: 1, fillOpacity: active ? 0.18 : 0.08, className: p.estado === "incidencia" ? "klk-pulse" : "" }}
+                  />
+                  <CircleMarker
+                    center={[p.lat, p.lng]}
+                    radius={active ? 11 : 8}
+                    pathOptions={{ color: dark ? "#1c1c1a" : "#fdfdfc", weight: 2, fillColor: color, fillOpacity: 1 }}
+                    eventHandlers={{
+                      click: () => onSelectPoint?.(p.id),
+                      mouseover: () => setHoveredId(p.id),
+                      mouseout: () => setHoveredId(null),
+                    }}
+                  >
+                    <Tooltip direction="top" offset={[0, -8]}>
+                      <span className="font-medium">{p.nombre}</span> — {label}
+                    </Tooltip>
+                  </CircleMarker>
+                </div>
+              );
+            })
+          )}
         </MapContainer>
       </div>
     </Shell>
