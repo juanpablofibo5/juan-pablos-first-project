@@ -9,6 +9,8 @@ const ESTADO: Record<CheckinStatus, { label: string; color: string; text: string
   no_show: { label: "No-show", color: "#57544e", text: "#3a3833" },
 };
 
+const FILTROS: (CheckinStatus | "todos")[] = ["todos", "a_tiempo", "retardo", "fuera_geocerco", "no_show"];
+
 /** Hora relativa: "ahora", "hace 2 min", "hace 1 h"… */
 function relativo(ts: number, now: number): string {
   const s = Math.max(0, Math.floor((now - ts) / 1000));
@@ -59,13 +61,23 @@ function Row({ ev, now, onClick, dark }: { ev: CheckinEvent; now: number; onClic
         </span>
         <span className="min-w-0 flex-1">
           <span className={`block truncate text-sm font-medium ${dark ? "text-paper" : "text-ink"}`}>{ev.empleado}</span>
-          <span className={`block truncate font-mono text-xs ${dark ? "text-taupe" : "text-ink-soft"}`}>
+          <span className={`flex items-center gap-1 truncate font-mono text-xs ${dark ? "text-taupe" : "text-ink-soft"}`}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden style={{ color: ev.tipo === "entrada" ? "#4b7a5a" : "#8f8c84" }}>
+              {ev.tipo === "entrada" ? (
+                <path d="M12 5v14M12 19l5-5M12 19l-5-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              ) : (
+                <path d="M12 19V5M12 5l5 5M12 5l-5 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              )}
+            </svg>
             {ev.tipo === "entrada" ? "Entrada" : "Salida"}
             {ev.sucursal ? ` · ${ev.sucursal}` : ""}
           </span>
         </span>
         <Pill estado={ev.estado} dark={dark} />
-        <time className={`shrink-0 font-mono text-xs tabular-nums ${dark ? "text-taupe" : "text-ink-soft"}`}>
+        <time
+          title={new Date(ev.timestamp).toLocaleString("es-MX")}
+          className={`shrink-0 font-mono text-xs tabular-nums ${dark ? "text-taupe" : "text-ink-soft"}`}
+        >
           {relativo(ev.timestamp, now)}
         </time>
       </button>
@@ -91,7 +103,9 @@ export function LiveCheckinFeed({
     return () => clearInterval(id);
   }, []);
 
-  const filtrados = filter === "todos" ? events : events.filter((e) => e.estado === filter);
+  const [activeFilter, setActiveFilter] = useState<CheckinStatus | "todos">(filter);
+  const countFor = (k: CheckinStatus | "todos") => (k === "todos" ? events.length : events.filter((e) => e.estado === k).length);
+  const filtrados = activeFilter === "todos" ? events : events.filter((e) => e.estado === activeFilter);
   const visibles = filtrados.slice(0, maxVisible);
   const restantes = filtrados.length - visibles.length;
 
@@ -99,7 +113,12 @@ export function LiveCheckinFeed({
     <div className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"}`}>
       {/* Barra superior con indicador "en vivo" */}
       <div className={`flex items-center justify-between border-b px-4 py-2.5 ${dark ? "border-ink-700" : "border-line"}`}>
-        <h3 className={`font-display text-sm font-semibold ${dark ? "text-paper" : "text-ink"}`}>Fichajes en vivo</h3>
+        <h3 className={`font-display text-sm font-semibold ${dark ? "text-paper" : "text-ink"}`}>
+          Fichajes en vivo
+          {events.length > 0 && (
+            <span className={`ml-2 font-mono text-xs font-normal ${dark ? "text-taupe" : "text-ink-soft"}`}>{events.length}</span>
+          )}
+        </h3>
         <span className="inline-flex items-center gap-1.5">
           <span className="klk-livedot h-2 w-2 rounded-full" style={{ background: "#4b7a5a" }} aria-hidden />
           <span className={`font-mono text-xs ${dark ? "text-taupe" : "text-ink-soft"}`}>En vivo</span>
@@ -110,6 +129,29 @@ export function LiveCheckinFeed({
       <p className="sr-only" aria-live="polite">
         {visibles[0] ? `Nuevo fichaje: ${visibles[0].empleado}, ${ESTADO[visibles[0].estado].label}` : ""}
       </p>
+
+      {/* Barra de filtros con contadores */}
+      {!loading && !error && events.length > 0 && (
+        <div className={`flex gap-1.5 overflow-x-auto border-b px-3 py-2 ${dark ? "border-ink-700" : "border-line"}`}>
+          {FILTROS.map((k) => {
+            const active = activeFilter === k;
+            return (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setActiveFilter(k)}
+                aria-pressed={active}
+                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                  active ? "bg-accent text-paper" : dark ? "bg-ink-800 text-taupe hover:text-paper" : "bg-paper-2 text-ink-soft hover:text-ink"
+                }`}
+              >
+                {k === "todos" ? "Todos" : ESTADO[k].label}
+                <span className="tabular-nums opacity-80">{countFor(k)}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* --- ESTADO: cargando (skeleton) --- */}
       {loading ? (
