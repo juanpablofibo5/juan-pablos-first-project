@@ -1,3 +1,6 @@
 .DS_Store
 .thumbnail/
 node_modules/
+.gstack/
+dev-server.mjs
+serve.json
