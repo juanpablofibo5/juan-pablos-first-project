@@ -1,5 +1,6 @@
-allowBuilds:
-  esbuild: set this to true or false
+# Dependencias cuyo build script se permite ejecutar (pnpm v10+ los bloquea por defecto).
+# esbuild y @tailwindcss/oxide instalan binarios nativos necesarios para `vite build`.
 onlyBuiltDependencies:
   - esbuild
+  - '@tailwindcss/oxide'
 verifyDepsBeforeRun: false

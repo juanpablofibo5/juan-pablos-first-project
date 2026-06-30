@@ -35,7 +35,10 @@ jobs:
           cache: pnpm
           cache-dependency-path: app/pnpm-lock.yaml
 
-      - run: pnpm install --frozen-lockfile
+      # --ignore-scripts: pnpm v11 bloquea build scripts (esbuild) y falla en CI.
+      # Los binarios nativos (esbuild, @tailwindcss/oxide) vienen como paquetes de
+      # plataforma, así que no hace falta correr scripts para que `vite build` funcione.
+      - run: pnpm install --frozen-lockfile --ignore-scripts
 
       - run: pnpm build
 
