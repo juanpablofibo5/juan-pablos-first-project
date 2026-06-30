@@ -1,12 +1,12 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Navigate, NavLink, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Yo from "./pages/Yo";
-import Klockk from "./pages/Klockk";
+import Klokk from "./pages/Klokk";
 import Componentes from "./pages/Componentes";
 
 const NAV: [string, string][] = [
   ["/yo", "Yo"],
-  ["/klockk", "Klockk"],
+  ["/klokk", "Klokk"],
   ["/componentes", "Componentes"],
 ];
 
@@ -16,7 +16,7 @@ export default function App() {
       <header className="sticky top-0 z-20 border-b border-line bg-paper/85 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
           <NavLink to="/" className="font-display text-base font-bold text-ink">
-            Juan Pablo · Klockk
+            Juan Pablo · Klokk
           </NavLink>
           <nav className="flex gap-1 font-mono text-sm">
             {NAV.map(([to, label]) => (
@@ -40,7 +40,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/yo" element={<Yo />} />
-          <Route path="/klockk" element={<Klockk />} />
+          <Route path="/klokk" element={<Klokk />} />
+          <Route path="/klockk" element={<Navigate to="/klokk" replace />} />
           <Route path="/componentes" element={<Componentes />} />
         </Routes>
       </main>

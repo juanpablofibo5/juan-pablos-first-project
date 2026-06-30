@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const CARDS: [string, string, string][] = [
   ["/yo", "Introducción personal", "Quién soy y mi trayectoria."],
-  ["/klockk", "Klockk", "El problema y la solución."],
+  ["/klokk", "Klokk", "El problema y la solución."],
   ["/componentes", "Librería de componentes", "Componentes en vivo del dashboard."],
 ];
 
@@ -13,7 +13,7 @@ export default function Home() {
         <p className="font-mono text-sm text-accent">Curso de desarrollo web</p>
         <h1 className="mt-3 font-display text-5xl font-bold sm:text-6xl">Juan Pablo Figueroa</h1>
         <p className="mt-4 max-w-xl text-lg text-ink-soft">
-          Construyendo Klockk —control de asistencia por WhatsApp— y este portafolio, en vivo con código.
+          Construyendo Klokk —control de asistencia por WhatsApp— y este portafolio, en vivo con código.
         </p>
       </header>
       <div className="grid gap-4 pb-16 sm:grid-cols-3">

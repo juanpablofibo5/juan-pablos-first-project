@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
@@ -38,6 +38,122 @@
 }
 
 body { font-family: var(--font-sans); color: var(--color-ink); }
+
+/* ── Marca Klokk · Clay Design System (alcance acotado a la sección) ──────────
+   Estos tokens viven solo bajo .klokk-brand para no contaminar el resto del
+   portafolio (Home/Yo/Componentes conservan su identidad neutra + azul). */
+.klokk-brand {
+  /* Marca y acción */
+  --brand: #2d8d57;
+  --brand-deep: #237446;
+  --brand-tint: #e7f2ec;
+  /* Azul del portafolio: acento secundario (estructura), nunca acción */
+  --accent-blue: #3a5688;
+  /* Texto */
+  --text-1: #1f2d49;
+  --text-2: #5f6b7a;
+  --text-3: #9aa4b2;
+  /* Superficies */
+  --surface: #ffffff;
+  --bg-base: #fcfcfd;
+  --surface-sunken: #f5f7fa;
+  /* Radios de la escala */
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 34px;
+  /* Sombra clay: luz arriba, sombra abajo → se siente presionable */
+  --clay-rest:
+    0 1px 1px rgba(31, 45, 73, 0.04),
+    0 10px 26px -10px rgba(31, 45, 73, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(31, 45, 73, 0.04);
+  --clay-raised:
+    0 2px 3px rgba(31, 45, 73, 0.05),
+    0 22px 44px -14px rgba(31, 45, 73, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(31, 45, 73, 0.05);
+  --clay-pressed:
+    inset 0 2px 6px rgba(31, 45, 73, 0.14),
+    inset 0 1px 1px rgba(31, 45, 73, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.6);
+  /* Curvas */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-clay: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* Duraciones */
+  --dur-hover: 180ms;
+  --dur-card: 300ms;
+  --dur-enter: 700ms;
+
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text-1);
+}
+
+/* Reveal de entrada (scroll/carga). Termina SIEMPRE visible. */
+@keyframes klokk-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.klokk-brand .klokk-rise {
+  animation: klokk-rise var(--dur-enter) var(--ease-entrance) both;
+}
+
+/* Reveal en scroll (fade + subida). Lo activa el componente Reveal. */
+.klokk-brand .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity var(--dur-enter) var(--ease-entrance),
+    transform var(--dur-enter) var(--ease-entrance);
+}
+.klokk-brand .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tres estados de la card clay */
+.klokk-brand .clay-card {
+  background: var(--surface);
+  box-shadow: var(--clay-rest);
+  transition:
+    transform var(--dur-card) var(--ease-standard),
+    box-shadow var(--dur-card) var(--ease-standard);
+}
+.klokk-brand .clay-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--clay-raised);
+}
+
+/* Botón de marca (verde = acción) con rebote táctil y foco visible */
+.klokk-brand .clay-btn {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: var(--clay-rest);
+  transition:
+    transform var(--dur-hover) var(--ease-clay),
+    background var(--dur-hover) var(--ease-standard),
+    box-shadow var(--dur-hover) var(--ease-standard);
+}
+.klokk-brand .clay-btn:hover { background: var(--brand-deep); transform: translateY(-2px); }
+.klokk-brand .clay-btn:active { transform: scale(0.98); box-shadow: var(--clay-pressed); }
+.klokk-brand .clay-btn:focus-visible,
+.klokk-brand .clay-focus:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--brand-tint), 0 0 0 5px var(--brand);
+}
+
+/* Accesibilidad: respeta a quien reduce el movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .klokk-brand .klokk-rise,
+  .klokk-brand .clay-card,
+  .klokk-brand .clay-btn,
+  .klokk-brand .reveal {
+    animation: none !important;
+    transition: none !important;
+  }
+  .klokk-brand .reveal { opacity: 1; transform: none; }
+}
 
 /* Atribución del mapa (Leaflet): enlaces distinguibles sin depender solo del color (a11y). */
 .leaflet-control-attribution a { text-decoration: underline; }

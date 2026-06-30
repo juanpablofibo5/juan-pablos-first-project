@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import KlokkMark from "../components/brand/KlokkMark";
 import { LocationsMap } from "../components/LocationsMap/LocationsMap";
 import { GeofenceField } from "../components/GeofenceField/GeofenceField";
 import { LiveCheckinFeed } from "../components/LiveCheckinFeed/LiveCheckinFeed";
@@ -40,10 +41,20 @@ export default function Componentes() {
   return (
     <div>
       <header className="py-12">
-        <p className="font-mono text-sm text-accent">Klockk · librería</p>
-        <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">Librería de componentes</h1>
+        <div className="flex items-center gap-4">
+          <KlokkMark
+            size={56}
+            color="#237446"
+            title="Isotipo de Klokk"
+            className="shrink-0 drop-shadow-[0_8px_16px_rgba(31,45,73,.18)]"
+          />
+          <div>
+            <p className="font-mono text-sm text-accent">Klokk · librería</p>
+            <h1 className="mt-1 font-display text-4xl font-bold sm:text-5xl">Librería de componentes</h1>
+          </div>
+        </div>
         <p className="mt-4 max-w-2xl text-lg text-ink-soft">
-          Componentes presentacionales en React + TypeScript para el dashboard de Klockk.
+          Componentes presentacionales en React + TypeScript para el dashboard de Klokk.
           Aquí corren <strong>nativos</strong> dentro del sitio (sin iframes).
         </p>
       </header>
