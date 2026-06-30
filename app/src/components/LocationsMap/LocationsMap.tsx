@@ -221,6 +221,8 @@ export function LocationsMap({
                   key={p.id}
                   position={[p.lat, p.lng]}
                   icon={statusIcon(STATUS[p.estado].color, selectedId === p.id)}
+                  title={`${p.nombre} — ${STATUS[p.estado].label}`}
+                  alt={`${p.nombre} — ${STATUS[p.estado].label}`}
                   eventHandlers={{ click: () => onSelectPoint?.(p.id) }}
                 >
                   <Tooltip direction="top" offset={[0, -8]}>

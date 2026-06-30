@@ -188,7 +188,11 @@ body { font-family: var(--font-sans); color: var(--color-ink); }
 @keyframes klk-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .klk-grow { transform-origin: left center; animation: klk-grow .6s ease-out; }
 
+/* Estampado del sello de integridad; termina SIEMPRE visible (escala 1, opacidad 1) */
+@keyframes klk-sello { from { opacity: 0; transform: scale(1.16) rotate(-6deg); } to { opacity: 1; transform: none; } }
+.klk-sello { transform-origin: center; animation: klk-sello .45s cubic-bezier(.2,.9,.3,1.2) both; }
+
 /* Respeta a quien reduce el movimiento (accesibilidad) */
 @media (prefers-reduced-motion: reduce) {
-  .klk-skeleton, .klk-pulse, .klk-livedot, .klk-enter, .klk-grow, .leaflet-interactive { animation: none !important; transition: none !important; }
+  .klk-skeleton, .klk-pulse, .klk-livedot, .klk-enter, .klk-grow, .klk-sello, .leaflet-interactive { animation: none !important; transition: none !important; }
 }

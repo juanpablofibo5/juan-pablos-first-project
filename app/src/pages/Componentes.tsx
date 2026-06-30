@@ -4,9 +4,13 @@ import { LocationsMap } from "../components/LocationsMap/LocationsMap";
 import { GeofenceField } from "../components/GeofenceField/GeofenceField";
 import { LiveCheckinFeed } from "../components/LiveCheckinFeed/LiveCheckinFeed";
 import { OvertimeMeter } from "../components/OvertimeMeter/OvertimeMeter";
+import { IntegrityBadge } from "../components/IntegrityBadge/IntegrityBadge";
+import { WorkerStatusCard } from "../components/WorkerStatusCard/WorkerStatusCard";
 import type { MapPoint } from "../components/LocationsMap/types";
 import type { GeofenceValue } from "../components/GeofenceField/types";
 import type { CheckinEvent } from "../components/LiveCheckinFeed/types";
+import type { IntegritySignal } from "../components/IntegrityBadge/types";
+import type { Worker, WorkerAction } from "../components/WorkerStatusCard/types";
 
 const puntos: MapPoint[] = [
   { id: "1", nombre: "Full Gas Mérida", lat: 20.9674, lng: -89.6237, radio: 150, estado: "activo" },
@@ -22,6 +26,62 @@ const eventos: CheckinEvent[] = [
   { id: "3", empleado: "Ana Cruz", tipo: "salida", estado: "a_tiempo", timestamp: ahora - 720_000, sucursal: "Kanasín" },
   { id: "4", empleado: "Jorge Uc", tipo: "entrada", estado: "fuera_geocerco", timestamp: ahora - 1_500_000, sucursal: "Caucel" },
 ];
+
+// Señales base de una checada (la mejor manda al nivel global del sello).
+const señalesOk: IntegritySignal[] = [
+  { key: "ubic", label: "Dentro de la geocerca", status: "ok", detalle: "a 24 m" },
+  { key: "tiempo", label: "Dentro del horario", status: "ok", detalle: "a tiempo" },
+  { key: "gps", label: "GPS real, sin simulación", status: "ok" },
+  { key: "id", label: "Identidad confirmada", status: "ok", detalle: "selfie" },
+];
+const señalesRevisar: IntegritySignal[] = [
+  { key: "ubic", label: "Dentro de la geocerca", status: "ok", detalle: "a 24 m" },
+  { key: "tiempo", label: "Dentro del horario", status: "alerta", detalle: "retardo 14 min" },
+  { key: "gps", label: "GPS real, sin simulación", status: "ok" },
+  { key: "id", label: "Identidad confirmada", status: "ok", detalle: "selfie" },
+];
+const señalesSospechoso: IntegritySignal[] = [
+  { key: "ubic", label: "Dentro de la geocerca", status: "falla", detalle: "a 1.2 km" },
+  { key: "tiempo", label: "Dentro del horario", status: "ok", detalle: "a tiempo" },
+  { key: "gps", label: "GPS real, sin simulación", status: "falla", detalle: "ubicación simulada" },
+  { key: "id", label: "Identidad confirmada", status: "alerta", detalle: "dispositivo nuevo" },
+];
+
+// Trabajadores de demo para WorkerStatusCard.
+const trabajadores: Record<string, Worker> = {
+  maria: { id: "w1", nombre: "María González", puesto: "Despachadora" },
+  luis: { id: "w2", nombre: "Luis Pérez", puesto: "Cajero" },
+  ana: { id: "w3", nombre: "Ana Cruz", puesto: "Supervisora" },
+  jorge: { id: "w4", nombre: "Jorge Uc", puesto: "Despachador" },
+};
+const accionesTrabajador: WorkerAction[] = [
+  { label: "Ver perfil" },
+  { label: "Ver fichajes" },
+  { label: "Enviar recordatorio" },
+  { label: "Marcar ausencia", danger: true },
+];
+
+// Botón secundario para las acciones del pie del sello (demo).
+function AccionDemo({ children }: { children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      className="rounded-md border border-line bg-paper px-2 py-1 text-[11px] font-medium text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      {children}
+    </button>
+  );
+}
+
+// Subtítulo para cada estado del sello dentro de la cuadrícula de demostración.
+function Estado({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-ink-soft">{label}</p>
+      {children}
+    </div>
+  );
+}
 
 function Section({ title, tag, children }: { title: string; tag: string; children: ReactNode }) {
   return (
@@ -70,6 +130,84 @@ export default function Componentes() {
       </Section>
       <Section title="OvertimeMeter" tag="STRETCH · data-viz">
         <OvertimeMeter normal={40} doble={6} triple={2} objetivo={48} semanaAnterior={44} />
+      </Section>
+      <Section title="IntegrityBadge" tag="NÚCLEO · confianza">
+        <p className="-mt-2 mb-5 max-w-2xl text-sm text-ink-soft">
+          Certifica que una checada es <strong>confiable</strong>: combina varias señales
+          (geocerca, horario, GPS real, identidad) en un sello con nivel global. Una vista por estado.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Estado label="Verificado · happy">
+            <IntegrityBadge empleado="María González" sucursal="Full Gas Mérida" tipo="entrada" timestamp={ahora - 12_000} folio="K-8F2A" señales={señalesOk} />
+          </Estado>
+          <Estado label="Revisar · alerta">
+            <IntegrityBadge empleado="Luis Pérez" sucursal="Full Gas Umán" tipo="entrada" timestamp={ahora - 180_000} folio="K-8F2B" señales={señalesRevisar} />
+          </Estado>
+          <Estado label="Sospechoso · falla">
+            <IntegrityBadge
+              empleado="Jorge Uc"
+              sucursal="Full Gas Caucel"
+              tipo="salida"
+              timestamp={ahora - 1_500_000}
+              folio="K-8F2C"
+              señales={señalesSospechoso}
+              acciones={
+                <>
+                  <AccionDemo>Ver en mapa</AccionDemo>
+                  <AccionDemo>Marcar revisada</AccionDemo>
+                </>
+              }
+            />
+          </Estado>
+          <Estado label="Cargando">
+            <IntegrityBadge estado="cargando" señales={[]} />
+          </Estado>
+          <Estado label="Vacío · sin datos">
+            <IntegrityBadge estado="vacio" señales={[]} />
+          </Estado>
+          <Estado label="Tema oscuro">
+            <IntegrityBadge empleado="Ana Cruz" sucursal="Full Gas Kanasín" tipo="entrada" timestamp={ahora - 60_000} folio="K-8F2D" señales={señalesOk} theme="dark" />
+          </Estado>
+        </div>
+      </Section>
+      <Section title="WorkerStatusCard" tag="STRETCH · tablero">
+        <p className="-mt-2 mb-5 max-w-2xl text-sm text-ink-soft">
+          Tarjeta de trabajador para el tablero "¿quién está hoy?": avatar/iniciales, nombre,
+          puesto, estado actual, último fichaje e indicador de dentro/fuera del geocerco.
+          Card del design system (radio 16px, borde 1px, sin sombra, hover sutil).
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Estado label="Presente">
+            <WorkerStatusCard worker={trabajadores.maria} status="presente" insideGeofence lastCheckin={ahora - 120_000} acciones={accionesTrabajador} onSelect={() => {}} />
+          </Estado>
+          <Estado label="Retardo">
+            <WorkerStatusCard worker={trabajadores.luis} status="retardo" insideGeofence nota="14 min tarde" lastCheckin={ahora - 14 * 60_000} acciones={accionesTrabajador} onSelect={() => {}} />
+          </Estado>
+          <Estado label="Ausente">
+            <WorkerStatusCard worker={trabajadores.jorge} status="ausente" nota="No se presentó" lastCheckin={ahora - 26 * 60 * 60_000} acciones={accionesTrabajador} onSelect={() => {}} />
+          </Estado>
+          <Estado label="Sin datos">
+            <WorkerStatusCard worker={trabajadores.ana} status="sin_datos" acciones={accionesTrabajador} onSelect={() => {}} />
+          </Estado>
+        </div>
+
+        <p className="mb-3 mt-8 font-mono text-[11px] uppercase tracking-wide text-ink-soft">Bonus · densidad cómoda vs. compacta</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <WorkerStatusCard worker={trabajadores.maria} status="presente" insideGeofence lastCheckin={ahora - 120_000} densidad="comoda" acciones={accionesTrabajador} />
+            <p className="text-center font-mono text-[11px] text-ink-soft">cómoda</p>
+          </div>
+          <div className="space-y-2">
+            <WorkerStatusCard worker={trabajadores.maria} status="presente" insideGeofence lastCheckin={ahora - 120_000} densidad="compacta" acciones={accionesTrabajador} />
+            <p className="text-center font-mono text-[11px] text-ink-soft">compacta</p>
+          </div>
+        </div>
+
+        <p className="mb-3 mt-8 font-mono text-[11px] uppercase tracking-wide text-ink-soft">Tema oscuro</p>
+        <div className="grid gap-4 rounded-2xl bg-ink-900 p-4 sm:grid-cols-2">
+          <WorkerStatusCard worker={trabajadores.maria} status="presente" insideGeofence lastCheckin={ahora - 120_000} acciones={accionesTrabajador} theme="dark" />
+          <WorkerStatusCard worker={trabajadores.jorge} status="ausente" insideGeofence={false} lastCheckin={ahora - 26 * 60 * 60_000} acciones={accionesTrabajador} theme="dark" />
+        </div>
       </Section>
     </div>
   );
