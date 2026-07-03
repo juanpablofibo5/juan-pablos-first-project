@@ -8,7 +8,7 @@
 | B-003 | P1 | Reconstruir página `Yo` en React nativo | Sin iframe; contenido migrado al design system; `public/yo.html` y `support.js` eliminados; axe 0 | AUDIT D2 | hecho |
 | B-004 | P2 | Red mínima de tests | Vitest + Testing Library; humo + axe por componente (6); corre en CI como gate | AUDIT D5 | hecho |
 | B-010 | P2 | README en la raíz del repo | GitHub muestra portada: qué es, live URL, mapa del repo, cómo correr; el README de `app/` deja de ser la única doc | loop nocturno 2026-07-01 | hecho |
-| B-009 | P3 | Actualizar versiones de las GitHub Actions | Sin avisos de Node deprecado en los runs | AUDIT D10 | pendiente |
+| B-009 | P3 | Actualizar versiones de las GitHub Actions | Sin avisos de Node deprecado en los runs | AUDIT D10 | hecho |
 
 ## Cerrados
 
