@@ -40,6 +40,9 @@ jobs:
       # plataforma, así que no hace falta correr scripts para que `vite build` funcione.
       - run: pnpm install --frozen-lockfile --ignore-scripts
 
+      # Gate de calidad: lint antes del build (el build ya typechea con tsc -b)
+      - run: pnpm lint
+
       - run: pnpm build
 
       # Fallback SPA: GitHub Pages sirve 404.html para rutas profundas (/klokk, /yo…)
