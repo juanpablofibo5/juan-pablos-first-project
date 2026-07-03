@@ -12,7 +12,7 @@
 | B-005 | P2 | Unificar radio de card del design system | Un solo token (16px, spec de Luis) usado por los 6 componentes vía `rounded-card`; preview verificado | AUDIT D6 | hecho |
 | B-006 | P2 | `taupe-2`: documentar como no-texto | Token comentado en `index.css`; 0 usos como texto; axe 0 | AUDIT D7 | hecho |
 | B-007 | P2 | Gate de lint en CI | `pnpm lint` corre en el workflow antes del build; CI verde | AUDIT D8 | hecho |
-| B-008 | P2 | Meta description + Open Graph | Tags presentes en el `index.html` construido; favicon vigente confirmado | AUDIT D9 | pendiente |
+| B-008 | P2 | Meta description + Open Graph | Tags presentes en el `index.html` construido; favicon vigente confirmado | AUDIT D9 | hecho |
 | B-009 | P3 | Actualizar versiones de las GitHub Actions | Sin avisos de Node deprecado en los runs | AUDIT D10 | pendiente |
 
 ## Cerrados
