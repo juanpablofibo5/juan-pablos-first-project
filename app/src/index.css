@@ -11,6 +11,8 @@
   --color-paper-2: #f6f5f3;    /* fondo alterno */
   --color-line: #e7e5e1;       /* bordes */
   --color-taupe: #a09d95;
+  /* ⚠️ taupe-2 es SOLO decorativo (puntos, bordes): como texto sobre papel da
+     3.29:1 y falla AA (ver AP-004). Texto secundario → ink-soft. */
   --color-taupe-2: #8f8c84;
 
   /* Acentos */
