@@ -34,3 +34,15 @@
 - **Regla que queda:** `taupe-2` es SOLO decorativo (puntos, bordes); para texto
   secundario usar `ink-soft`.
 - **Refs:** fix en Componentes.tsx (sesión 2026-06-30), B-006
+
+## AP-005 · 2026-07-01 · `gh run list` justo tras el push agarra el run viejo `[ci]`
+- **Síntoma:** "verifiqué" anotaciones de un run que en realidad era el anterior
+  (el nuevo aún no existía cuando corrió `gh run list --limit 1`).
+- **Causa real:** GitHub tarda segundos en crear el run; el list inmediato devuelve
+  el previo. Además, `deploy-pages` puede fallar transitorio ("Deployment failed,
+  try again later") — un rerun lo resuelve.
+- **Regla que queda:** resolver el run SIEMPRE por `headSha` del commit
+  (`gh run list --json databaseId,headSha | select(.headSha==$SHA)`), y ante un
+  fallo de deployment sin causa en el build: `gh run rerun --failed` UNA vez antes
+  de diagnosticar.
+- **Refs:** B-009 (pases 2 y 3), bitácora 2026-07-01-loop-2-nocturno

@@ -5,10 +5,7 @@
 
 | ID | P | Ítem | Criterio de aceptación | Origen | Estado |
 |---|---|---|---|---|---|
-| B-003 | P1 | Reconstruir página `Yo` en React nativo | Sin iframe; contenido migrado al design system; `public/yo.html` y `support.js` eliminados; axe 0 | AUDIT D2 | hecho |
-| B-004 | P2 | Red mínima de tests | Vitest + Testing Library; humo + axe por componente (6); corre en CI como gate | AUDIT D5 | hecho |
-| B-010 | P2 | README en la raíz del repo | GitHub muestra portada: qué es, live URL, mapa del repo, cómo correr; el README de `app/` deja de ser la única doc | loop nocturno 2026-07-01 | hecho |
-| B-009 | P3 | Actualizar versiones de las GitHub Actions | Sin avisos de Node deprecado en los runs | AUDIT D10 | hecho |
+| — | — | *(vacío: el AUDIT 2026-07 quedó saldado; la siguiente fase se decide con JP — ver PARA-HUMANO)* | | | |
 
 ## Cerrados
 
@@ -20,3 +17,7 @@
 | B-006 | `taupe-2` documentado como no-texto | `3fe76c2` | 2026-07-01-loop-1-higiene |
 | B-007 | Gate de lint en CI | `97c17cc` | 2026-07-01-loop-1-higiene |
 | B-008 | Meta description + OG + theme-color | `b519371` | 2026-07-01-loop-1-higiene |
+| B-010 | README de portada en la raíz | `e99aab7` | 2026-07-01-loop-2-nocturno |
+| B-003 | Página `Yo` en React nativo (muere el último iframe) | `8f49871` | 2026-07-01-loop-2-nocturno |
+| B-004 | Red de tests: 29 pruebas + gate en CI | `aa6d383` | 2026-07-01-loop-2-nocturno |
+| B-009 | Actions al día — 0 avisos de Node deprecado (3 pases) | `58aa56d`+2 | 2026-07-01-loop-2-nocturno |
