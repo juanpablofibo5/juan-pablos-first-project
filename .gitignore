@@ -4,3 +4,4 @@ node_modules/
 .gstack/
 dev-server.mjs
 serve.json
+_legacy/

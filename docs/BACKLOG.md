@@ -5,7 +5,7 @@
 
 | ID | P | Ítem | Criterio de aceptación | Origen | Estado |
 |---|---|---|---|---|---|
-| B-001 | P1 | Limpiar legacy de la raíz (~12 MB) | Raíz trackeada = solo `.github`, `.gitignore`, `.claude`, `CLAUDE.md`, `app/`, `docs/`; legacy preservado en `_legacy/` (fuera de git); deploy sigue verde | AUDIT D1 | pendiente |
+| B-001 | P1 | Limpiar legacy de la raíz (~12 MB) | Raíz trackeada = solo `.github`, `.gitignore`, `.claude`, `CLAUDE.md`, `app/`, `docs/`; legacy preservado en `_legacy/` (fuera de git); deploy sigue verde | AUDIT D1 | hecho |
 | B-002 | P1 | Barrer huérfanos de `app/` + launch.json global | Sin `App.css`, `assets/` de template, `vitest.shims.d.ts`, `public/icons.svg`; launch.json global sin entrada storybook; build verde | AUDIT D3+D4 | pendiente |
 | B-003 | P1 | Reconstruir página `Yo` en React nativo | Sin iframe; contenido migrado al design system; `public/yo.html` y `support.js` eliminados; axe 0 | AUDIT D2 | pendiente |
 | B-004 | P2 | Red mínima de tests | Vitest + Testing Library; humo + axe por componente (6); corre en CI como gate | AUDIT D5 | pendiente |
