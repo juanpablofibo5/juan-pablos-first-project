@@ -40,8 +40,9 @@ jobs:
       # plataforma, así que no hace falta correr scripts para que `vite build` funcione.
       - run: pnpm install --frozen-lockfile --ignore-scripts
 
-      # Gate de calidad: lint antes del build (el build ya typechea con tsc -b)
+      # Gates de calidad: lint + tests antes del build (el build ya typechea con tsc -b)
       - run: pnpm lint
+      - run: pnpm test
 
       - run: pnpm build
 
