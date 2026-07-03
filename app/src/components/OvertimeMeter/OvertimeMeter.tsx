@@ -19,7 +19,7 @@ export function OvertimeMeter({ normal, doble, triple, objetivo, semanaAnterior,
   const ariaLabel = `Horas de la semana: ${fmt(total)} en total. ${fmt(normal)} normales, ${fmt(doble)} al doble, ${fmt(triple)} al triple.${objetivo !== undefined ? ` Objetivo ${fmt(objetivo)}.` : ""}`;
 
   return (
-    <div className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"}`}>
+    <div className={`overflow-hidden rounded-card border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"}`}>
       {/* Header */}
       <div className={`flex items-end justify-between border-b px-4 py-3 ${dark ? "border-ink-700" : "border-line"}`}>
         <div>

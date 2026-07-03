@@ -35,7 +35,7 @@ function Shell({ theme, children }: { theme: "light" | "dark"; children: React.R
   const dark = theme === "dark";
   return (
     <div
-      className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${
+      className={`overflow-hidden rounded-card border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${
         dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"
       }`}
     >

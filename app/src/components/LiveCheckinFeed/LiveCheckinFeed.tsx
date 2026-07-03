@@ -110,7 +110,7 @@ export function LiveCheckinFeed({
   const restantes = filtrados.length - visibles.length;
 
   return (
-    <div className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"}`}>
+    <div className={`overflow-hidden rounded-card border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${dark ? "border-ink-700 bg-ink-900" : "border-line bg-paper"}`}>
       {/* Barra superior con indicador "en vivo" */}
       <div className={`flex items-center justify-between border-b px-4 py-2.5 ${dark ? "border-ink-700" : "border-line"}`}>
         <h3 className={`font-display text-sm font-semibold ${dark ? "text-paper" : "text-ink"}`}>

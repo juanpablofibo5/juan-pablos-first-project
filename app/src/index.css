@@ -33,8 +33,9 @@
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Radios */
-  --radius-card: 14px;
+  /* Radios — un solo radio de card en todo el design system (spec: 16px).
+     Usar la utilidad `rounded-card`; no hardcodear px (DEC-002). */
+  --radius-card: 16px;
 }
 
 body { font-family: var(--font-sans); color: var(--color-ink); }

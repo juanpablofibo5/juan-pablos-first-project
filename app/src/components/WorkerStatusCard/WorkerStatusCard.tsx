@@ -150,9 +150,9 @@ export function WorkerStatusCard({
   const soft = dark ? "text-taupe" : "text-ink-soft";
   const fichaje = lastCheckin !== undefined ? haceCuanto(lastCheckin) : null;
 
-  // Card del design system: radio 16px, borde 1px, SIN sombra, hover sutil.
+  // Card del design system: radio por token (rounded-card), borde 1px, SIN sombra, hover sutil.
   const card = [
-    "relative rounded-2xl border transition-colors duration-[180ms]",
+    "relative rounded-card border transition-colors duration-[180ms]",
     selectable ? "cursor-pointer" : "",
     dark ? "border-ink-700 bg-ink-900 hover:bg-ink-800" : "border-line bg-paper hover:border-taupe/60 hover:bg-paper-2/60",
   ].join(" ");
@@ -197,7 +197,7 @@ export function WorkerStatusCard({
             <button
               type="button"
               onClick={() => onSelect!(worker.id)}
-              className={`block max-w-full truncate text-left font-display font-semibold leading-tight after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-accent ${compact ? "text-sm" : "text-base"} ${txt}`}
+              className={`block max-w-full truncate text-left font-display font-semibold leading-tight after:absolute after:inset-0 after:rounded-card after:content-[''] focus:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-accent ${compact ? "text-sm" : "text-base"} ${txt}`}
             >
               {worker.nombre}
             </button>

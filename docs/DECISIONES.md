@@ -17,3 +17,16 @@
   bitácora ↔ decisión. Prácticas heredadas que ya eran regla: publicar por pieza
   verificada; axe 0 en componentes; regenerar lockfile al tocar dependencias.
 - **Estado:** vigente
+
+## DEC-002 · 2026-07-01 · Un solo radio de card: 16px vía token `rounded-card`
+- **Contexto:** convivían dos radios (token `--radius-card: 14px` en 5 componentes y
+  `rounded-2xl`/16px hardcodeado en WorkerStatusCard, que venía del spec de Luis:
+  "radio 16px, borde 1px, sin sombra").
+- **Decisión:** el token gana pero adopta el valor del spec: `--radius-card: 16px`,
+  y TODOS los componentes usan la utilidad `rounded-card` (Tailwind v4 la genera del
+  token). Prohibido hardcodear radios de card en px.
+- **Descartado:** mantener dos radios "por tipo de card" — inconsistencia sin
+  beneficio; y bajar todo a 14px — contradice el spec del design system.
+- **Consecuencias:** cambio visual sutil (+2px) en los 5 componentes originales;
+  verificado en preview (8 cards → 16px computado).
+- **Estado:** vigente

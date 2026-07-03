@@ -120,7 +120,7 @@ export function IntegrityBadge({ señales, empleado, sucursal, tipo, timestamp, 
   // ── Estado: CARGANDO ──────────────────────────────────────────
   if (cargando) {
     return (
-      <article aria-busy="true" aria-label="Verificando integridad de la checada" className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${card}`}>
+      <article aria-busy="true" aria-label="Verificando integridad de la checada" className={`overflow-hidden rounded-card border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${card}`}>
         <div className={`flex items-center justify-between border-b px-4 py-3 ${divider}`}>
           <div className="klk-skeleton h-4 w-40" />
           <div className="klk-skeleton h-3 w-14" />
@@ -151,7 +151,7 @@ export function IntegrityBadge({ señales, empleado, sucursal, tipo, timestamp, 
   // ── Estado: VACÍO / sin señales ───────────────────────────────
   if (vacio) {
     return (
-      <article aria-label="Sello de integridad sin datos" className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${card}`}>
+      <article aria-label="Sello de integridad sin datos" className={`overflow-hidden rounded-card border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${card}`}>
         <div className={`flex items-center justify-between border-b px-4 py-3 ${divider}`}>
           <h3 className={`font-display text-sm font-semibold ${txt}`}>Sello de integridad</h3>
         </div>
@@ -179,7 +179,7 @@ export function IntegrityBadge({ señales, empleado, sucursal, tipo, timestamp, 
     (timestamp !== undefined ? ` ${fmtFecha(timestamp)}, ${fmtHora(timestamp)}.` : "");
 
   return (
-    <article aria-label={resumenSR} className={`overflow-hidden rounded-[14px] border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${card}`}>
+    <article aria-label={resumenSR} className={`overflow-hidden rounded-card border shadow-[0_4px_24px_-12px_rgba(28,28,26,0.18)] ${card}`}>
       {/* Barra de acento por nivel (triage instantáneo en una lista) */}
       <div className="h-1 w-full" style={{ background: N.seal }} aria-hidden />
 
