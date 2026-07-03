@@ -30,3 +30,17 @@
 - **Consecuencias:** cambio visual sutil (+2px) en los 5 componentes originales;
   verificado en preview (8 cards → 16px computado).
 - **Estado:** vigente
+
+## DEC-003 · 2026-07-01 · La página Yo se reconstruye, no se replica
+- **Contexto:** el legacy `yo.html` (236 KB) tenía splash 3D, timeline con contenido
+  oculto tras clic y foto en base64 inline, todo sobre un micro-runtime JS propio.
+- **Decisión:** reconstrucción nativa en el design system neutro del portafolio
+  (misma paleta que ya usaba el legacy): timeline vertical con TODO visible, metas
+  con su porqué siempre a la vista, foto extraída a asset real de Vite, `Reveal`/
+  `CountUp` de brand/ para el movimiento. Contenido migrado verbatim (13 hitos,
+  5 metas, 4 stats, 4 cards).
+- **Descartado:** réplica 1:1 del legacy interactivo — contenido oculto perjudica
+  a11y y móvil, y el splash era ornamento sin información.
+- **Consecuencias:** mueren `public/yo.html` y `public/support.js` (−292 KB);
+  la app entera es React nativo — cero iframes.
+- **Estado:** vigente

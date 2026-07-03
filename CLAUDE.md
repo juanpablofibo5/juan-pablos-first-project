@@ -51,5 +51,5 @@ Orquestar/decidir/verificar: `fable` (hoy Fable 5) · construir con spec clara:
 - **Design system:** tokens en `@theme` de `app/src/index.css`; el sistema Clay vive
   acotado a `.klokk-brand` (solo página Klokk) — no mezclar.
 - `--color-taupe-2` es decorativo: NO usarlo como color de texto (falla AA, AP-004).
-- Legacy pre-migración vive en `_legacy/` (fuera de git): no revivirlo; la página
-  `Yo` aún lo usa vía `app/public/yo.html` hasta B-003.
+- Legacy pre-migración vive en `_legacy/` (fuera de git): no revivirlo. La app es
+  100 % React nativo — cero iframes (DEC-003).
