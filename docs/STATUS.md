@@ -1,11 +1,12 @@
 # STATUS — juan-pablos-first-project
 
-> Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-01 · por Claude (Fable 5)
+> Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-02 · por Claude (Fable 5)
 
 ## Ahora
-- **AUDIT 2026-07 completamente saldado** (D1–D10). Loop nocturno autónomo: 4/4
-  ítems — página Yo nativa, 29 tests como gate, README raíz, actions sin avisos.
-  Reportes: `GOODNIGHT.md` (ejecutivo) · `docs/bitacora/2026-07-01-loop-2-nocturno.md`.
+- **AUDIT 2026-07 saldado** (reporte: `GOODNIGHT.md` · bitácora loop-2) y
+  **personalidad de Yo restaurada por veto de JP** (`2d631f5`): cubo J +
+  coordenadas animadas + timeline interactivo — con regla nueva AP-006 (la
+  identidad visual no se decide en loops autónomos).
 
 ## Siguiente
 - **Decisión de JP pendiente:** la siguiente fase del proyecto (4 opciones en
