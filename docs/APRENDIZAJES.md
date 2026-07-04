@@ -87,3 +87,15 @@
   decidir. Y con builders en paralelo: gates globales solo cuando todos
   aterrizaron; mientras, verificación escopada por ítem.
 - **Refs:** commits `295902e` (rojo) → `52ff038` (fix), bitácora loop-4
+
+## AP-009 · 2026-07-02 · Los gates locales validan el working tree, no el COMMIT `[proceso]`
+- **Síntoma:** 3 runs de CI rojos en cadena durante el loop 4, con gates locales
+  verdes en cada ronda.
+- **Causa real:** staging parcial — el hotfix committeó el TEST de un ítem cuyo
+  componente aún no estaba committeado. El árbol del commit tenía un import
+  inexistente; mi verificación corría sobre el working tree completo.
+- **Regla que queda:** con commits por ítem y outputs paralelos: (1) nunca
+  stagear archivos de un ítem que no se está committeando completo — un fix a
+  archivos aún-no-committeados espera a la ronda de SU ítem; (2) ante duda,
+  CI es el árbitro del árbol del commit (verificar por headSha).
+- **Refs:** commits 52ff038/e6d2eca/7c8c10c (rojos) → df6fbc3 (verde), bitácora loop-4

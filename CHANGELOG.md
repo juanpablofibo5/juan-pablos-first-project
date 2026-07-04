@@ -93,3 +93,11 @@ anotada SIN ejecutar — es decisión de JP.
 **Recomendación (una):** reemplazar el chat hecho a mano de la página Klokk
 por `WhatsAppCheckinCard` — 30 líneas menos, un solo origen de verdad del
 componente de marca, y la página gana los estados. Requiere tu ok (AP-006).
+
+## Post-cierre · lectura del historial de CI de la tanda
+- `c76811d` build ✓ / deployment en cola falló (transitorio AP-005) — benigno.
+- `52ff038`→`7c8c10c` build ROJO real: el hotfix staged el test de StpsReportCard
+  sin su componente → árboles de commit inconsistentes aunque el working tree
+  (y mis gates locales) estuvieran verdes. Sanado en `df6fbc3`. → **AP-009**:
+  no stagear fragmentos de ítems ajenos; CI arbitra el árbol del commit.
+- Estado final: `df6fbc3` y el cierre en verde; sitio desplegado.
