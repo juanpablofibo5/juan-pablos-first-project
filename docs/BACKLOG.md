@@ -5,7 +5,7 @@
 
 | ID | P | Ítem | Criterio de aceptación | Origen | Estado |
 |---|---|---|---|---|---|
-| B-014 | P1 | Ejecutar PLAN.md tanda 2 (4 componentes, loop multi-agente) | Los ítems P-01…P-04 `completado` en PLAN.md cumpliendo su criterio global + específico; CHANGELOG con entrada por vuelta + resumen; commit por ítem; CI verde | PLAN.md aprobado por JP 2026-07-02 | en-curso |
+| — | — | *(vacío: ver PARA-HUMANO — decisión de fase y oportunidad Klokk.tsx)* | | | |
 
 ## Cerrados
 
@@ -24,3 +24,4 @@
 | B-011 | Restaurar personalidad del legacy en Yo (cubo J + coords + timeline) | `2d631f5` | 2026-07-02-restaurar-personalidad |
 | B-012 | Intro y hero de Yo portados 1:1 del código fuente del legacy | `3628c53` | 2026-07-02-loop-3-port-exacto-intro |
 | B-013 | Trendline de Trayectoria 1:1 (valle en jun 2023) — sin letrero | `b39bc57` | 2026-07-02-loop-3 (seguimiento) |
+| B-014 | PLAN.md tanda 2: 4 componentes vía loop multi-agente (108 tests, axe 0) | `295902e`…cierre | 2026-07-02-loop-4-tanda2 |

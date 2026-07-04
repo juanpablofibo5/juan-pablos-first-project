@@ -420,7 +420,7 @@ function Cabecera({
       </span>
       <div className="min-w-0 leading-tight">
         <p className="truncate text-sm font-bold text-white">{contacto}</p>
-        <p className="text-xs text-white/75">{estadoContacto}</p>
+        <p className="text-xs text-white/90">{estadoContacto}</p>
       </div>
     </div>
   );

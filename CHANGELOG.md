@@ -46,3 +46,50 @@ _(entradas del loop debajo)_
   HTMLElement) que además destapó que mi gate por grep dejaba pasar builds
   rojos → regla nueva: gates por EXIT CODE (commit 52ff038).
 - **Orquestador:** demo con 5 vistas; README.
+
+## Vuelta 5 · fixes de integración (verificación viva del orquestador)
+El axe de página (el ÚNICO que mide contraste real — jsdom no puede) encontró
+2 defectos de builders tras el cableado:
+- **WhatsAppCheckinCard:** "en línea" con `text-white/75` sobre el verde de
+  marca = 3.99:1 → `text-white/90` (AA).
+- **StpsReportCard:** "3 incidencias marcadas" en ámbar #b07d2b como TEXTO =
+  3.54:1 → texto a ámbar AA por tema (#6f4e12 / #dab36e), el ícono queda
+  gráfico en #b07d2b (≥3:1 ✓).
+Re-verificado: axe 0 en toda la página con los 10 componentes.
+
+---
+
+# RESUMEN EJECUTIVO — loop tanda 2 cerrado
+
+| Ítem | Resultado | Commit | Tests propios |
+|---|---|---|---|
+| P-01 KpiStatCard | ✅ completado | `295902e` (+hotfix `52ff038`) | 21 |
+| P-02 WhatsAppCheckinCard | ✅ completado | `e6d2eca` | 19 |
+| P-03 TeamStatusBoard | ✅ completado | `7c8c10c` | 16 |
+| P-04 StpsReportCard (stretch) | ✅ completado | `df6fbc3` | 23 |
+| Fixes de integración | ✅ | (commit de cierre) | — |
+
+**Números:** 4/4 ítems (stretch incluido) · 0 atorados · 0 bloqueados · suite
+29 → **108 tests** · **axe 0** con 10 componentes · librería 6 → **10**.
+
+**Hallazgos que el plan no preveía:**
+1. Un builder ASUMIÓ una clase del design system que no existía
+   (`klk-indeterminate`) y la citó como existente — los builders afirman APIs
+   con confianza; todo supuesto se verifica. Se agregó al design system.
+2. Mi gate por `grep "error"` convertía un build ROJO en verde (el match del
+   texto pasaba la cadena). Un push salió con typecheck roto; se corrigió
+   hacia adelante. Regla nueva: **gates por exit code, jamás por grep**.
+3. El contraste solo se puede verificar VIVO: 2 defectos AA de builders
+   invisibles para jsdom, cazados por el axe de página del orquestador.
+4. Tests de un builder a medio vuelo tiran la suite de los demás (paralelismo);
+   la auto-verificación de cada builder lo resuelve antes de entregar, pero el
+   orquestador no debe correr gates globales hasta que todos aterricen.
+
+**Dónde dudé / asumí:** los colores hex inline de los builders (vs clases
+Tailwind) se aceptaron por coherencia con el patrón existente de la librería;
+la "oportunidad Klokk.tsx" (usar WhatsAppCheckinCard en la página) quedó
+anotada SIN ejecutar — es decisión de JP.
+
+**Recomendación (una):** reemplazar el chat hecho a mano de la página Klokk
+por `WhatsAppCheckinCard` — 30 líneas menos, un solo origen de verdad del
+componente de marca, y la página gana los estados. Requiere tu ok (AP-006).

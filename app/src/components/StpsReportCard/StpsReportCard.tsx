@@ -244,7 +244,8 @@ export function StpsReportCard({
             style={{ color: "#b07d2b" }}
           >
             <IconoAlerta />
-            <span className="text-sm font-medium">
+            {/* texto en ámbar AA por tema (fix de integración; el ícono queda gráfico ≥3:1) */}
+            <span className="text-sm font-medium" style={{ color: dark ? "#dab36e" : "#6f4e12" }}>
               {incidencias}{" "}
               {incidencias === 1 ? "incidencia marcada" : "incidencias marcadas"}
             </span>

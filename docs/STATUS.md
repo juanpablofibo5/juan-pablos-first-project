@@ -3,11 +3,11 @@
 > Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-02 · por Claude (Fable 5)
 
 ## Ahora
-- **Intro de Yo portada 1:1 del código fuente del legacy** (`3628c53`, loop 3
-  nocturno): coreografía exacta (J → cubo inclinado 7 s → desintegración →
-  crossfade con nombre letra a letra + coords con jitter). Reporte ejecutivo:
-  `GOOD-MORNING.md` (antes GOODNIGHT.md). Reglas nuevas: AP-006 (identidad no se
-  decide en autónomo) y AP-007 (replicar = portar del fuente, no aproximar).
+- **Loop 4 (tanda 2 del PLAN) cerrado: 4/4 ítems, 0 atascos.** La librería pasó
+  de 6 a **10 componentes** (KpiStatCard, WhatsAppCheckinCard, TeamStatusBoard,
+  StpsReportCard), suite 29 → **108 tests**, axe 0. Fase C de JP: leer
+  `CHANGELOG.md` (raíz). Reglas nuevas: gates por exit code (AP-008 pendiente
+  de escribir en APRENDIZAJES por el propio hallazgo del loop).
 
 ## Siguiente
 - **Decisión de JP pendiente:** la siguiente fase del proyecto (4 opciones en

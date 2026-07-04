@@ -75,3 +75,15 @@
   dentro de un eval — la navegación completa en el preview tarda 10–13 s y llega
   tarde a las fases tempranas).
 - **Refs:** B-012, DEC-005, bitácora 2026-07-02-loop-3
+
+## AP-008 · 2026-07-02 · Gates por exit code, jamás por grep del texto `[proceso]`
+- **Síntoma:** un push salió con el typecheck roto y CI en rojo, aunque "pasó"
+  mi cadena de verificación.
+- **Causa real:** el gate era `pnpm build | grep -E "✓ built|error"` — cuando
+  build falla, grep MATCHEA la palabra "error", devuelve exit 0 y la cadena
+  `&&` continúa: el fallo se volvió éxito.
+- **Regla que queda:** los gates se encadenan por EXIT CODE del comando
+  (`pnpm build > /dev/null && echo OK`); grep solo para MOSTRAR, nunca para
+  decidir. Y con builders en paralelo: gates globales solo cuando todos
+  aterrizaron; mientras, verificación escopada por ítem.
+- **Refs:** commits `295902e` (rojo) → `52ff038` (fix), bitácora loop-4
