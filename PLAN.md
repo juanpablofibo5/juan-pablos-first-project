@@ -140,7 +140,7 @@ hay mensajes") · burbuja de ubicación **dentro** vs **fuera** del geocerco.
 
 ---
 
-## P-03 · TeamStatusBoard (TableroDeEquipo) — `pendiente`
+## P-03 · TeamStatusBoard (TableroDeEquipo) — `completado`
 
 **Por qué tercero:** es composición — reutiliza `WorkerStatusCard` (regla dura:
 importarlo, no duplicarlo, no modificarlo) y el patrón de filtros de

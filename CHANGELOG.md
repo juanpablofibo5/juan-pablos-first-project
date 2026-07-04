@@ -25,3 +25,11 @@ _(entradas del loop debajo)_
   tokens (coherente con el demo original de la página Klokk).
 - **Oportunidad anotada (no ejecutada — fuera de alcance):** la página Klokk
   podría reemplazar su chat hecho a mano por este componente. Requiere decisión.
+
+## Vuelta 3 · P-03 TeamStatusBoard — completado
+- **Builder** (`sonnet`): 3 archivos (625 líneas), 16 tests (4 de axe). Test
+  clave de filtrado: 6 miembros, clic en "Retardo" → solo 2 visibles, conteos
+  de TODAS las pills correctos. Reutilización probada con grep: cero copias del
+  markup de WorkerStatusCard, cero cambios a ese componente.
+- **Orquestador:** demo principal interactiva + 4 estados; README. Sin
+  desviaciones del plan.

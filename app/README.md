@@ -31,6 +31,7 @@ vivo en la ruta `/componentes`, con **una vista por estado**.
 | **WorkerStatusCard** | Tarjeta de trabajador para el tablero "¿quién está hoy?" (estado + geocerco + fichaje). |
 | **KpiStatCard** | Métrica de cabecera del dashboard con tendencia semántica (retardos que bajan = verde). |
 | **WhatsAppCheckinCard** | La conversación de checada por WhatsApp — el gancho del producto, como componente. |
+| **TeamStatusBoard** | Tablero "¿quién está ahora?": filtros con conteo, componiendo WorkerStatusCard. |
 
 ### LocationsMap
 - **Props:** `points`, `onSelectPoint?`, `selectedId?`, `center?`, `zoom?`, `theme?`, `loading?`, `error?`, `onRetry?`, `onAddLocation?`, `cluster?`
@@ -71,6 +72,11 @@ vivo en la ruta `/componentes`, con **una vista por estado**.
 - **Props:** `contacto?`, `estadoContacto?`, `mensajes`, `animado?`, `estado?`, `theme?`
 - **Estados:** conversación · cargando · vacío · ubicación dentro/fuera del geocerco
 - **Extras:** 4 tipos de mensaje tipados (texto/ubicación/confirmación), entrada animada con stagger que respeta reduced-motion, cabecera con verde de marca e isotipo.
+
+### TeamStatusBoard
+- **Props:** `miembros`, `filtroInicial?`, `onSelectWorker?`, `acciones?`, `densidad?`, `loading?`, `error?`, `onRetry?`, `theme?`
+- **Estados:** grid · cargando (skeletons) · vacío · error+reintentar · filtro sin resultados (positivo)
+- **Extras:** composición pura de WorkerStatusCard (cero duplicación), filtros pills con conteo navegables por teclado, grid responsive 1/2/3 columnas.
 
 ## Design system
 

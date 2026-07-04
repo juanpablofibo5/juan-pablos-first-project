@@ -9,6 +9,8 @@ import { WorkerStatusCard } from "../components/WorkerStatusCard/WorkerStatusCar
 import { KpiStatCard } from "../components/KpiStatCard/KpiStatCard";
 import { WhatsAppCheckinCard } from "../components/WhatsAppCheckinCard/WhatsAppCheckinCard";
 import type { MensajeChat } from "../components/WhatsAppCheckinCard/types";
+import { TeamStatusBoard } from "../components/TeamStatusBoard/TeamStatusBoard";
+import type { MiembroEquipo } from "../components/TeamStatusBoard/types";
 import type { MapPoint } from "../components/LocationsMap/types";
 import type { GeofenceValue } from "../components/GeofenceField/types";
 import type { CheckinEvent } from "../components/LiveCheckinFeed/types";
@@ -68,6 +70,16 @@ const chatFuera: MensajeChat[] = [
   { de: "empleado", tipo: "texto", texto: "Entrada" },
   { de: "empleado", tipo: "ubicacion", dentroGeocerca: false },
   { de: "klokk", tipo: "texto", texto: "Estás fuera del punto de trabajo. Acércate a la sucursal e intenta de nuevo." },
+];
+
+// Equipo de demo para TeamStatusBoard (6 miembros, estados variados).
+const equipoDemo: MiembroEquipo[] = [
+  { worker: { id: "w1", nombre: "María González", puesto: "Despachadora" }, status: "presente", insideGeofence: true, lastCheckin: ahora - 120_000 },
+  { worker: { id: "w2", nombre: "Luis Pérez", puesto: "Cajero" }, status: "retardo", insideGeofence: true, nota: "14 min tarde", lastCheckin: ahora - 14 * 60_000 },
+  { worker: { id: "w3", nombre: "Ana Cruz", puesto: "Supervisora" }, status: "sin_datos" },
+  { worker: { id: "w4", nombre: "Jorge Uc", puesto: "Despachador" }, status: "ausente", nota: "No se presentó", lastCheckin: ahora - 26 * 60 * 60_000 },
+  { worker: { id: "w5", nombre: "Rosa Dzul", puesto: "Cajera" }, status: "presente", insideGeofence: true, lastCheckin: ahora - 300_000 },
+  { worker: { id: "w6", nombre: "Manuel Caamal", puesto: "Despachador" }, status: "retardo", insideGeofence: false, nota: "en camino", lastCheckin: ahora - 8 * 60_000 },
 ];
 
 const accionesTrabajador: WorkerAction[] = [
@@ -271,6 +283,36 @@ export default function Componentes() {
           </Estado>
           <Estado label="Tema oscuro">
             <WhatsAppCheckinCard mensajes={chatFeliz} theme="dark" />
+          </Estado>
+        </div>
+      </Section>
+      <Section title="TeamStatusBoard" tag="NÚCLEO · tablero">
+        <p className="-mt-2 mb-5 max-w-2xl text-sm text-ink-soft">
+          "¿Quién está ahora?" — el tablero del equipo con filtros y conteos.
+          <strong> Compone WorkerStatusCard</strong> (importado, cero duplicación): la librería
+          construyendo sobre sí misma.
+        </p>
+        <TeamStatusBoard
+          miembros={equipoDemo}
+          acciones={() => accionesTrabajador}
+          onSelectWorker={() => {}}
+        />
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <Estado label="Cargando">
+            <TeamStatusBoard miembros={[]} loading />
+          </Estado>
+          <Estado label="Vacío">
+            <TeamStatusBoard miembros={[]} />
+          </Estado>
+          <Estado label="Error">
+            <TeamStatusBoard miembros={[]} error="No se pudo cargar el equipo" onRetry={() => {}} />
+          </Estado>
+          <Estado label="Tema oscuro · compacta">
+            <TeamStatusBoard
+              miembros={equipoDemo.slice(0, 2)}
+              densidad="compacta"
+              theme="dark"
+            />
           </Estado>
         </div>
       </Section>
