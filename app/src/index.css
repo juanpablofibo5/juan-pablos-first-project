@@ -383,11 +383,16 @@ body { font-family: var(--font-sans); color: var(--color-ink); }
 @keyframes klk-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .klk-grow { transform-origin: left center; animation: klk-grow .6s ease-out; }
 
+/* Barra de progreso indeterminada (p. ej. reporte "generando"); el contenedor
+   debe llevar overflow-hidden */
+@keyframes klk-indeterminate { 0% { transform: translateX(-110%); } 100% { transform: translateX(360%); } }
+.klk-indeterminate { width: 38%; animation: klk-indeterminate 1.3s ease-in-out infinite; }
+
 /* Estampado del sello de integridad; termina SIEMPRE visible (escala 1, opacidad 1) */
 @keyframes klk-sello { from { opacity: 0; transform: scale(1.16) rotate(-6deg); } to { opacity: 1; transform: none; } }
 .klk-sello { transform-origin: center; animation: klk-sello .45s cubic-bezier(.2,.9,.3,1.2) both; }
 
 /* Respeta a quien reduce el movimiento (accesibilidad) */
 @media (prefers-reduced-motion: reduce) {
-  .klk-skeleton, .klk-pulse, .klk-livedot, .klk-enter, .klk-grow, .klk-sello, .leaflet-interactive { animation: none !important; transition: none !important; }
+  .klk-skeleton, .klk-pulse, .klk-livedot, .klk-enter, .klk-grow, .klk-sello, .klk-indeterminate, .leaflet-interactive { animation: none !important; transition: none !important; }
 }

@@ -32,6 +32,7 @@ vivo en la ruta `/componentes`, con **una vista por estado**.
 | **KpiStatCard** | Métrica de cabecera del dashboard con tendencia semántica (retardos que bajan = verde). |
 | **WhatsAppCheckinCard** | La conversación de checada por WhatsApp — el gancho del producto, como componente. |
 | **TeamStatusBoard** | Tablero "¿quién está ahora?": filtros con conteo, componiendo WorkerStatusCard. |
+| **StpsReportCard** | Registro mensual de jornada listo para inspección (Art. 132 LFT) con completitud y descarga. |
 
 ### LocationsMap
 - **Props:** `points`, `onSelectPoint?`, `selectedId?`, `center?`, `zoom?`, `theme?`, `loading?`, `error?`, `onRetry?`, `onAddLocation?`, `cluster?`
@@ -77,6 +78,11 @@ vivo en la ruta `/componentes`, con **una vista por estado**.
 - **Props:** `miembros`, `filtroInicial?`, `onSelectWorker?`, `acciones?`, `densidad?`, `loading?`, `error?`, `onRetry?`, `theme?`
 - **Estados:** grid · cargando (skeletons) · vacío · error+reintentar · filtro sin resultados (positivo)
 - **Extras:** composición pura de WorkerStatusCard (cero duplicación), filtros pills con conteo navegables por teclado, grid responsive 1/2/3 columnas.
+
+### StpsReportCard
+- **Props:** `mes`, `empleados`, `diasRegistrados`, `totalDias`, `incidencias?`, `estado?`, `mensajeError?`, `onDescargar?`, `theme?`
+- **Estados:** listo · generando (barra indeterminada) · incompleto (qué falta) · error
+- **Extras:** completitud con barra + % SIEMPRE en texto, CTA con aria-disabled explicado cuando no está listo, incidencias en ámbar con ícono.
 
 ## Design system
 

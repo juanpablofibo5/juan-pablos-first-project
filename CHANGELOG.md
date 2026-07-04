@@ -33,3 +33,16 @@ _(entradas del loop debajo)_
   markup de WorkerStatusCard, cero cambios a ese componente.
 - **Orquestador:** demo principal interactiva + 4 estados; README. Sin
   desviaciones del plan.
+
+## Vuelta 4 · P-04 StpsReportCard (stretch) — completado
+- **Builder** (`sonnet`): 3 archivos (556 líneas), 23 tests. Completitud 18/22
+  → "82%" probada; CTA solo invocable en "listo" (aria-disabled + onClick
+  undefined en los demás, verificado con vi.fn()).
+- **Lo que el builder ASUMIÓ mal (atrapado por el orquestador):** usó la clase
+  `klk-indeterminate` "del design system" — no existía. Se agregó al design
+  system (index.css) con su exclusión de reduced-motion. Lección: los builders
+  citan APIs con confianza aunque no existan; verificar todo supuesto.
+- **Fix del orquestador previo:** error de tipos en su test (Element vs
+  HTMLElement) que además destapó que mi gate por grep dejaba pasar builds
+  rojos → regla nueva: gates por EXIT CODE (commit 52ff038).
+- **Orquestador:** demo con 5 vistas; README.

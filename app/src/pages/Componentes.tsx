@@ -11,6 +11,7 @@ import { WhatsAppCheckinCard } from "../components/WhatsAppCheckinCard/WhatsAppC
 import type { MensajeChat } from "../components/WhatsAppCheckinCard/types";
 import { TeamStatusBoard } from "../components/TeamStatusBoard/TeamStatusBoard";
 import type { MiembroEquipo } from "../components/TeamStatusBoard/types";
+import { StpsReportCard } from "../components/StpsReportCard/StpsReportCard";
 import type { MapPoint } from "../components/LocationsMap/types";
 import type { GeofenceValue } from "../components/GeofenceField/types";
 import type { CheckinEvent } from "../components/LiveCheckinFeed/types";
@@ -313,6 +314,29 @@ export default function Componentes() {
               densidad="compacta"
               theme="dark"
             />
+          </Estado>
+        </div>
+      </Section>
+      <Section title="StpsReportCard" tag="STRETCH · legal">
+        <p className="-mt-2 mb-5 max-w-2xl text-sm text-ink-soft">
+          El gancho legal: registro electrónico de jornada (Art. 132 LFT, 2027)
+          listo para inspección — completitud del mes, incidencias y descarga.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Estado label="Listo">
+            <StpsReportCard mes="junio 2026" empleados={12} diasRegistrados={22} totalDias={22} onDescargar={() => {}} />
+          </Estado>
+          <Estado label="Incompleto · con incidencias">
+            <StpsReportCard mes="junio 2026" empleados={12} diasRegistrados={18} totalDias={22} incidencias={3} estado="incompleto" onDescargar={() => {}} />
+          </Estado>
+          <Estado label="Generando">
+            <StpsReportCard mes="junio 2026" empleados={12} diasRegistrados={0} totalDias={22} estado="generando" />
+          </Estado>
+          <Estado label="Error">
+            <StpsReportCard mes="junio 2026" empleados={12} diasRegistrados={0} totalDias={22} estado="error" mensajeError="No se pudo conectar con el servidor de reportes" />
+          </Estado>
+          <Estado label="Tema oscuro">
+            <StpsReportCard mes="junio 2026" empleados={12} diasRegistrados={22} totalDias={22} onDescargar={() => {}} theme="dark" />
           </Estado>
         </div>
       </Section>

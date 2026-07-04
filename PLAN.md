@@ -193,7 +193,7 @@ conteo (patrón LiveCheckinFeed) · densidad cómoda/compacta · light/dark.
 
 ---
 
-## P-04 · StpsReportCard (TarjetaReporteSTPS) — `pendiente` · STRETCH
+## P-04 · StpsReportCard (TarjetaReporteSTPS) — `completado` · STRETCH
 
 **Por qué al final:** stretch — valioso (el gancho legal: Art. 132 LFT, enero
 2027) pero el dashboard funciona sin él. Si el loop llega con presupuesto, va.
