@@ -51,3 +51,16 @@ lint ✅ · tests 29/29 ✅ · build ✅ · axe 0 ✅ · deploy del port: ver ru
 ## Recomendación
 La que sigue en pie: **decisión de fase en PARA-HUMANO**. Y adoptar AP-007 como
 hábito: replicar = portar del fuente, nunca de memoria.
+
+---
+
+## Seguimiento · trendline de Trayectoria (B-013, pedido de JP)
+JP pidió: quitar el letrero "toca cada punto · o navega con ← →" y volver a la
+gráfica original tipo trendline con el altibajo de la fractura. Port 1:1 del
+legacy (EVENTS con x/y exactos): la línea YA caía en Jun 2023 (y:160→200) y se
+recuperaba — la memoria de JP era exacta. Dibujado con stroke-dashoffset 1.5 s al
+entrar en viewport; nodos activos/normales con los valores originales; chips =
+tabs accesibles (flechas siguen funcionando, sin letrero); burbuja con bg #faf9f7.
+Desviación AA documentada: texto de chips/burbuja en ink-soft (original #8f8c84).
+Verificado: path exacto, dashoffset 0 tras dibujarse, clic jun 2023 → "Fractura de
+clavícula", 1 nodo activo azul, axe 0, gates verdes.

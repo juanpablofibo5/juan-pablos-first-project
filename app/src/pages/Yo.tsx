@@ -6,85 +6,22 @@ import fotoJP from "../assets/juan-pablo.jpg";
 
 /* ── Datos ───────────────────────────────────────────────────────────────── */
 
-const TIMELINE = [
-  {
-    year: "2010",
-    title: "Primer toque",
-    desc: "Empiezo a jugar fútbol desde kinder. El inicio de años de torneos y entrenamientos.",
-    next: false,
-  },
-  {
-    year: "2019",
-    title: "Selección Yucatán",
-    desc: "Convocado al Nacional en CDMX. Una actuación destacada llamó la atención de un visor del América, que quiso firmarme; mis papás dijeron que no por mi edad.",
-    next: false,
-  },
-  {
-    year: "2020–2021",
-    title: "Pandemia y Necaxa",
-    desc: "Con las academias cerradas, me uno al equipo de Necaxa. Luego regreso al América.",
-    next: false,
-  },
-  {
-    year: "2021",
-    title: "Selección Yucatán · Lázaro Cárdenas",
-    desc: "Segundo torneo nacional representando a Yucatán. Llegamos a la final y perdimos. Una de las experiencias más formativas en el fútbol.",
-    next: false,
-  },
-  {
-    year: "2022",
-    title: "CUM · Capitán",
-    desc: "Entro al CUM representando a mi colegio. En mi primer año me nombran capitán del equipo.",
-    next: false,
-  },
-  {
-    year: "2023",
-    title: "Pádel",
-    desc: "Me inicio en el pádel y desarrollo un talento completamente nuevo. Primer torneo estatal: eliminados en octavos, pero gran experiencia.",
-    next: false,
-  },
-  {
-    year: "Jun 2023",
-    title: "Fractura de clavícula",
-    desc: "Me rompo la clavícula a dos milímetros de salirse. Tres meses sin escuela, más de un mes durmiendo sentado. Cinco meses de rehabilitación y regreso más fuerte.",
-    next: false,
-  },
-  {
-    year: "2024",
-    title: "Muay Thai",
-    desc: "Me meto al Muay Thai, entreno duro, hago sparring los jueves y tengo mi primera pelea.",
-    next: false,
-  },
-  {
-    year: "2024",
-    title: "Subcampeones Liga Marista",
-    desc: "Temporada fuerte con el equipo. Terminamos como subcampeones de liga.",
-    next: false,
-  },
-  {
-    year: "Verano 2024",
-    title: "TASIS, Londres",
-    desc: "Me voy a internado en Inglaterra. Aprendo inglés, gano independencia, viajo solo, hago networking internacional y conozco a quien hoy es mi novia. Gané MVP de tenis y MVP de fútbol de la temporada.",
-    next: false,
-  },
-  {
-    year: "2024–2026",
-    title: "Dos años en TASIS",
-    desc: "Vivir fuera de casa me enseña a cocinar, organizarme, manejar dinero y relacionarme con gente de todo el mundo. Relaciones que no tienen comparación.",
-    next: false,
-  },
-  {
-    year: "2026",
-    title: "De vuelta en Mérida",
-    desc: "Terminando la prepa y tomando el curso de desarrollo web y diseño digital. Construyendo las skills para convertir ideas en productos reales.",
-    next: false,
-  },
-  {
-    year: "Próximo →",
-    title: "Tec de Monterrey",
-    desc: "Ing. en Transformación Digital.",
-    next: true,
-  },
+/* Trayectoria: EVENTS del legacy, 1:1 — x/y dibujan la trendline con sus
+   altibajos reales (cae en Jun 2023, la fractura, y se recupera hasta el pico). */
+const TRAYECTORIA = [
+  { x: 55, y: 255, chip: "2010", label: "2010 · Primer toque", title: "Primer toque", desc: "Empiezo a jugar fútbol desde kinder. El inicio de años de torneos y entrenamientos." },
+  { x: 129, y: 210, chip: "2019", label: "2019 · Selección Yucatán", title: "Selección Yucatán", desc: "Convocado al Nacional en CDMX. Una actuación destacada llamó la atención de un visor del América, que quiso firmarme; mis papás dijeron que no por mi edad." },
+  { x: 203, y: 225, chip: "2020–21", label: "2020–2021 · Pandemia y Necaxa", title: "Pandemia y Necaxa", desc: "Con las academias cerradas, me uno al equipo de Necaxa. Luego regreso al América." },
+  { x: 278, y: 185, chip: "2021", label: "2021 · Lázaro Cárdenas", title: "Selección Yucatán · Lázaro Cárdenas", desc: "Segundo torneo nacional representando a Yucatán. Llegamos a la final y perdimos. Una de las experiencias más formativas en el fútbol." },
+  { x: 352, y: 190, chip: "2022", label: "2022 · CUM", title: "CUM · Capitán", desc: "Entro al CUM representando a mi colegio. En mi primer año me nombran capitán del equipo." },
+  { x: 426, y: 160, chip: "2023", label: "2023 · Pádel", title: "Pádel", desc: "Me inicio en el pádel y desarrollo un talento completamente nuevo. Primer torneo estatal: eliminados en octavos, pero gran experiencia." },
+  { x: 500, y: 200, chip: "jun 2023", label: "Jun 2023 · Lesión", title: "Fractura de clavícula", desc: "Me rompo la clavícula a dos milímetros de salirse. Tres meses sin escuela, más de un mes durmiendo sentado. Cinco meses de rehabilitación y regreso más fuerte." },
+  { x: 574, y: 150, chip: "2024", label: "2024 · Muay Thai", title: "Muay Thai", desc: "Me meto al Muay Thai, entreno duro, hago sparring los jueves y tengo mi primera pelea." },
+  { x: 648, y: 130, chip: "2024 ·", label: "2024 · Liga Marista", title: "Subcampeones Liga Marista", desc: "Temporada fuerte con el equipo. Terminamos como subcampeones de liga." },
+  { x: 723, y: 95, chip: "ver. 2024", label: "Verano 2024 · TASIS, Londres", title: "TASIS, Londres", desc: "Me voy a internado en Inglaterra. Aprendo inglés, gano independencia, viajo solo, hago networking internacional y conozco a quien hoy es mi novia. Gané MVP de tenis y MVP de fútbol de la temporada." },
+  { x: 797, y: 80, chip: "2024–26", label: "2024–2026 · Dos años fuera", title: "Dos años en TASIS", desc: "Vivir fuera de casa me enseña a cocinar, organizarme, manejar dinero y relacionarme con gente de todo el mundo. Relaciones que no tienen comparación." },
+  { x: 871, y: 70, chip: "2026", label: "2026 · De vuelta", title: "De vuelta en Mérida", desc: "Terminando la prepa y tomando el curso de desarrollo web y diseño digital. Construyendo las skills para convertir ideas en productos reales." },
+  { x: 945, y: 48, chip: "próximo →", label: "Próximo →", title: "Tec de Monterrey", desc: "Ing. en Transformación Digital." },
 ];
 
 type MetaStatus = "En curso" | "Pendiente";
@@ -366,84 +303,145 @@ function GeoCounter({ delayMs = 0 }: { delayMs?: number }) {
   );
 }
 
-/* ── Timeline gráfico interactivo (restaurado del legacy · DEC-004) ────────── */
-/* Patrón tabs accesible: nodos sobre la línea, chip activo en tinta,
-   burbuja de detalle abajo; ← → navegan con teclado. */
+/* ── Trendline de trayectoria (port 1:1 del legacy · B-013) ─────────────────
+   Gráfica SVG con los altibajos reales: sube desde 2010, CAE en Jun 2023 (la
+   fractura de clavícula) y se recupera hasta el pico "Próximo". La línea se
+   dibuja sola al entrar en viewport (stroke-dashoffset, 1.5 s). Los chips son
+   tabs accesibles (las flechas ← → siguen funcionando, sin letrero); los nodos
+   del SVG son hit-areas de mouse. */
 
-function TimelineInteractivo() {
-  const [idx, setIdx] = useState(0);
+function TrendlineTrayectoria() {
+  const [activo, setActivo] = useState(0);
+  const lineRef = useRef<SVGPathElement>(null);
+  const cajaRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
+
+  // Dibujado de la línea al entrar en viewport (exacto al legacy)
+  useEffect(() => {
+    const line = lineRef.current;
+    const caja = cajaRef.current;
+    if (!line || !caja) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const len = line.getTotalLength();
+    line.style.strokeDasharray = `${len}`;
+    line.style.strokeDashoffset = `${len}`;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          line.getBoundingClientRect(); // reflow antes de transicionar, como el original
+          line.style.transition = "stroke-dashoffset 1.5s cubic-bezier(.4,.1,.2,1)";
+          line.style.strokeDashoffset = "0";
+          io.disconnect();
+        });
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(caja);
+    return () => io.disconnect();
+  }, []);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     e.preventDefault();
-    const next =
-      e.key === "ArrowRight" ? Math.min(idx + 1, TIMELINE.length - 1) : Math.max(idx - 1, 0);
-    setIdx(next);
-    tabsRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
+    const sig =
+      e.key === "ArrowRight" ? Math.min(activo + 1, TRAYECTORIA.length - 1) : Math.max(activo - 1, 0);
+    setActivo(sig);
+    tabsRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[sig]?.focus();
   };
 
-  const item = TIMELINE[idx];
+  const d = "M" + TRAYECTORIA.map((e) => `${e.x},${e.y}`).join(" L");
+  const ev = TRAYECTORIA[activo];
 
   return (
-    <div className="mt-10">
-      <div className="relative">
-        <div aria-hidden="true" className="absolute left-0 right-0 top-[8px] h-px bg-line" />
-        <div
-          ref={tabsRef}
-          role="tablist"
-          aria-label="Hitos de trayectoria"
-          onKeyDown={onKeyDown}
-          className="relative flex gap-6 overflow-x-auto pb-3 pt-0.5"
-        >
-          {TIMELINE.map((t, i) => {
-            const active = i === idx;
+    <div
+      ref={cajaRef}
+      className="mt-[34px] overflow-hidden rounded-2xl border border-[rgba(28,28,26,.10)] bg-paper"
+    >
+      {/* Gráfica (decorativa para AT; interacción accesible = chips de abajo) */}
+      <div className="px-[22px] pb-1.5 pt-6" aria-hidden="true">
+        <svg viewBox="0 0 1000 300" preserveAspectRatio="none" className="block h-auto w-full overflow-visible">
+          {[75, 150, 225].map((y) => (
+            <line key={y} x1="0" y1={y} x2="1000" y2={y} stroke="rgba(28,28,26,.05)" strokeWidth="1" />
+          ))}
+          <path
+            ref={lineRef}
+            d={d}
+            fill="none"
+            stroke="#3a5688"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {TRAYECTORIA.map((e, i) => {
+            const a = i === activo;
             return (
-              <button
-                key={`${t.year}-${t.title}`}
-                type="button"
-                role="tab"
-                id={`hito-tab-${i}`}
-                aria-selected={active}
-                aria-controls="hito-panel"
-                tabIndex={active ? 0 : -1}
-                onClick={() => setIdx(i)}
-                className="group flex shrink-0 flex-col items-center gap-2 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`h-[15px] w-[15px] rounded-full border-2 transition-colors ${
-                    active
-                      ? t.next
-                        ? "border-accent bg-accent"
-                        : "border-ink bg-ink"
-                      : t.next
-                        ? "border-accent bg-paper group-hover:bg-accent/20"
-                        : "border-line bg-paper group-hover:border-ink"
-                  }`}
+              <g key={e.label}>
+                <circle cx={e.x} cy={e.y} r="18" fill="transparent" className="cursor-pointer" onClick={() => setActivo(i)} />
+                <circle
+                  cx={e.x}
+                  cy={e.y}
+                  r={a ? 7 : 5}
+                  fill={a ? "#3a5688" : "#fdfdfc"}
+                  stroke={a ? "#c7d0e0" : "#9a9790"}
+                  strokeWidth={a ? 3 : 2}
+                  style={{ pointerEvents: "none", transition: "fill .2s ease, stroke .2s ease" }}
                 />
-                <span
-                  className={`whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-xs transition-colors ${
-                    active ? "bg-ink text-paper" : "bg-paper-2 text-ink-soft group-hover:text-ink"
-                  }`}
-                >
-                  {t.year}
-                </span>
-              </button>
+              </g>
             );
           })}
-        </div>
+        </svg>
       </div>
 
+      {/* Chips (tabs accesibles; ← → navegan) */}
+      <div
+        ref={tabsRef}
+        role="tablist"
+        aria-label="Hitos de trayectoria"
+        onKeyDown={onKeyDown}
+        className="flex flex-wrap gap-2 px-[22px] pb-5 pt-2"
+      >
+        {TRAYECTORIA.map((e, i) => {
+          const a = i === activo;
+          return (
+            <button
+              key={e.label}
+              type="button"
+              role="tab"
+              id={`hito-tab-${i}`}
+              aria-selected={a}
+              aria-controls="hito-panel"
+              tabIndex={a ? 0 : -1}
+              onClick={() => setActivo(i)}
+              className="whitespace-nowrap rounded-full border px-[11px] py-1.5 font-mono text-[11.5px] tracking-[.02em] transition-all duration-[180ms] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              style={
+                a
+                  ? { background: "#1c1c1a", color: "#f6f5f3", borderColor: "#1c1c1a" }
+                  : /* color original era #8f8c84: se sube a ink-soft por AA (AP-004) */
+                    { background: "#fdfdfc", color: "#57544e", borderColor: "rgba(28,28,26,.12)" }
+              }
+            >
+              {e.chip}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Burbuja de detalle (tabpanel) */}
       <div
         id="hito-panel"
         role="tabpanel"
-        aria-labelledby={`hito-tab-${idx}`}
-        className="mt-5 rounded-card border border-line bg-paper-2/60 p-6"
+        aria-labelledby={`hito-tab-${activo}`}
+        className="border-t border-[rgba(28,28,26,.08)] bg-[#faf9f7] px-[clamp(18px,3vw,30px)] pb-[30px] pt-6"
       >
-        <span className="font-mono text-xs font-semibold text-accent">{item.year}</span>
-        <h3 className="mt-1 font-display text-xl font-bold text-ink">{item.title}</h3>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{item.desc}</p>
+        <div className="flex items-center gap-3">
+          <span aria-hidden="true" className="h-2 w-2 flex-none rounded-full bg-accent" />
+          <span className="font-mono text-[12.5px] tracking-[.04em] text-accent">{ev.label}</span>
+        </div>
+        <div className="mt-[11px] font-display text-[clamp(20px,2.7vw,28px)] font-semibold tracking-[-.01em] text-ink">
+          {ev.title}
+        </div>
+        <p className="mt-[11px] max-w-[720px] text-[14.5px] leading-[1.62] text-ink-soft [text-wrap:pretty]">{ev.desc}</p>
       </div>
     </div>
   );
@@ -575,12 +573,9 @@ export default function Yo() {
           />
         </Reveal>
 
-        {/* Timeline gráfico interactivo (DEC-004) */}
+        {/* Trendline de trayectoria (B-013): la gráfica original con altibajos */}
         <Reveal delayMs={80}>
-          <p className="mt-3 font-mono text-xs text-ink-soft">
-            toca cada punto · o navega con ← →
-          </p>
-          <TimelineInteractivo />
+          <TrendlineTrayectoria />
         </Reveal>
       </section>
 
