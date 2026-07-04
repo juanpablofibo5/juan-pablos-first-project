@@ -22,3 +22,4 @@
 | B-004 | Red de tests: 29 pruebas + gate en CI | `aa6d383` | 2026-07-01-loop-2-nocturno |
 | B-009 | Actions al día — 0 avisos de Node deprecado (3 pases) | `58aa56d`+2 | 2026-07-01-loop-2-nocturno |
 | B-011 | Restaurar personalidad del legacy en Yo (cubo J + coords + timeline) | `2d631f5` | 2026-07-02-restaurar-personalidad |
+| B-012 | Intro y hero de Yo portados 1:1 del código fuente del legacy | `3628c53` | 2026-07-02-loop-3-port-exacto-intro |

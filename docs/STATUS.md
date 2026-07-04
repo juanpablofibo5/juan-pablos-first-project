@@ -3,10 +3,11 @@
 > Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-02 · por Claude (Fable 5)
 
 ## Ahora
-- **AUDIT 2026-07 saldado** (reporte: `GOODNIGHT.md` · bitácora loop-2) y
-  **personalidad de Yo restaurada por veto de JP** (`2d631f5`): cubo J +
-  coordenadas animadas + timeline interactivo — con regla nueva AP-006 (la
-  identidad visual no se decide en loops autónomos).
+- **Intro de Yo portada 1:1 del código fuente del legacy** (`3628c53`, loop 3
+  nocturno): coreografía exacta (J → cubo inclinado 7 s → desintegración →
+  crossfade con nombre letra a letra + coords con jitter). Reporte ejecutivo:
+  `GOOD-MORNING.md` (antes GOODNIGHT.md). Reglas nuevas: AP-006 (identidad no se
+  decide en autónomo) y AP-007 (replicar = portar del fuente, no aproximar).
 
 ## Siguiente
 - **Decisión de JP pendiente:** la siguiente fase del proyecto (4 opciones en
