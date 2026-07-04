@@ -182,15 +182,14 @@ function SectionHead({
 }
 
 /* ── Intro: cubo 3D con la J (restaurado del legacy · DEC-004) ────────────── */
-/* Una vez por sesión de navegador; saltable con clic, botón o Escape;
-   con reduced-motion no se muestra. */
+/* Como el original: aparece en CADA visita a la página. Saltable con clic,
+   botón o Escape; con reduced-motion no se muestra. */
 
 function IntroCube() {
   const [estado, setEstado] = useState<"oculto" | "visible" | "saliendo">("oculto");
 
   useEffect(() => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    if (sessionStorage.getItem("yo-intro-vista")) return;
     setEstado("visible");
   }, []);
 
@@ -200,7 +199,8 @@ function IntroCube() {
       if (e.key === "Escape") setEstado("saliendo");
     };
     document.addEventListener("keydown", saltarConTecla);
-    const t = setTimeout(() => setEstado("saliendo"), estado === "visible" ? 2100 : 500);
+    // 2.4 s visibles = una revolución completa del cubo (2.2 s) + aterrizaje
+    const t = setTimeout(() => setEstado("saliendo"), estado === "visible" ? 2400 : 500);
     return () => {
       document.removeEventListener("keydown", saltarConTecla);
       clearTimeout(t);
@@ -209,10 +209,7 @@ function IntroCube() {
 
   useEffect(() => {
     if (estado !== "saliendo") return;
-    const t = setTimeout(() => {
-      sessionStorage.setItem("yo-intro-vista", "1");
-      setEstado("oculto");
-    }, 480);
+    const t = setTimeout(() => setEstado("oculto"), 480);
     return () => clearTimeout(t);
   }, [estado]);
 

@@ -35,3 +35,13 @@ verificados en preview ✅ · publicado `2d631f5` ✅
 Sigue pendiente la **decisión de fase** en PARA-HUMANO. Y llevar AP-006 a la
 doctrina del playbook (05-LOOPS) para que la regla aplique en TODOS los proyectos,
 no solo aquí.
+
+---
+
+## Seguimiento (misma sesión) · el intro no se veía en visitas repetidas
+JP reportó no ver el intro. Causa: mi gate de "una vez por sesión de navegador"
+(sessionStorage) — otra micro-decisión de gusto no consultada; el original salía
+en CADA visita. Fix: gate eliminado (aparece en cada montaje de la página, también
+en navegación SPA), ventana 2.4 s = una revolución completa del cubo (2.2 s).
+Verificado con captura real del overlay (truco: congelar animación + clonar nodo,
+navegando por SPA para no matar el contexto del eval). Gates verdes.
