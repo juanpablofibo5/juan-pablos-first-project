@@ -14,3 +14,14 @@ _(entradas del loop debajo)_
   fila+subsección en README. Gates completos y axe al cierre de la tanda.
 - **Decisiones del builder (aceptadas):** aria-label "mejora/empeora N puntos"
   (equivalente funcional al ejemplo del plan); "sin delta" como sub-caso de `ok`.
+
+## Vuelta 2 · P-02 WhatsAppCheckinCard — completado
+- **Builder** (`sonnet`): 3 archivos (527 líneas), 19 tests. Los 4 tipos de
+  MensajeChat probados; reduced-motion con matchMedia mockeado; suite 108/108.
+- **Orquestador:** demo con 5 vistas; README. Nota: durante el vuelo, sus tests
+  a medias tiraban la suite de los demás builders (matchMedia) — su
+  auto-verificación lo resolvió sola antes de entregar, como manda el prompt.
+- **Decisión del builder (aceptada):** colores de burbuja en hex derivados de
+  tokens (coherente con el demo original de la página Klokk).
+- **Oportunidad anotada (no ejecutada — fuera de alcance):** la página Klokk
+  podría reemplazar su chat hecho a mano por este componente. Requiere decisión.

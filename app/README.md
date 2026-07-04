@@ -30,6 +30,7 @@ vivo en la ruta `/componentes`, con **una vista por estado**.
 | **IntegrityBadge** | Sello que certifica que una checada es confiable (geocerca, horario, GPS, identidad). |
 | **WorkerStatusCard** | Tarjeta de trabajador para el tablero "¿quién está hoy?" (estado + geocerco + fichaje). |
 | **KpiStatCard** | Métrica de cabecera del dashboard con tendencia semántica (retardos que bajan = verde). |
+| **WhatsAppCheckinCard** | La conversación de checada por WhatsApp — el gancho del producto, como componente. |
 
 ### LocationsMap
 - **Props:** `points`, `onSelectPoint?`, `selectedId?`, `center?`, `zoom?`, `theme?`, `loading?`, `error?`, `onRetry?`, `onAddLocation?`, `cluster?`
@@ -65,6 +66,11 @@ vivo en la ruta `/componentes`, con **una vista por estado**.
 - **Props:** `etiqueta`, `valor`, `formato?`, `delta?`, `deltaBuenoCuando?`, `periodo?`, `estado?`, `mensajeError?`, `theme?`
 - **Estados:** valor · cargando · error · sin tendencia
 - **Extras:** semántica de tendencia por contexto (`deltaBuenoCuando="baja"`), formatos %/horas/miles, flecha+texto nunca solo color.
+
+### WhatsAppCheckinCard
+- **Props:** `contacto?`, `estadoContacto?`, `mensajes`, `animado?`, `estado?`, `theme?`
+- **Estados:** conversación · cargando · vacío · ubicación dentro/fuera del geocerco
+- **Extras:** 4 tipos de mensaje tipados (texto/ubicación/confirmación), entrada animada con stagger que respeta reduced-motion, cabecera con verde de marca e isotipo.
 
 ## Design system
 

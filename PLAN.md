@@ -92,7 +92,7 @@ valor) · sin delta (tendencia omitida).
 
 ---
 
-## P-02 · WhatsAppCheckinCard (TarjetaCheckinWhatsApp) — `pendiente`
+## P-02 · WhatsAppCheckinCard (TarjetaCheckinWhatsApp) — `completado`
 
 **Por qué segundo:** el gancho del producto (demo/landing); standalone, sin
 dependencias de otros componentes.

@@ -7,6 +7,8 @@ import { OvertimeMeter } from "../components/OvertimeMeter/OvertimeMeter";
 import { IntegrityBadge } from "../components/IntegrityBadge/IntegrityBadge";
 import { WorkerStatusCard } from "../components/WorkerStatusCard/WorkerStatusCard";
 import { KpiStatCard } from "../components/KpiStatCard/KpiStatCard";
+import { WhatsAppCheckinCard } from "../components/WhatsAppCheckinCard/WhatsAppCheckinCard";
+import type { MensajeChat } from "../components/WhatsAppCheckinCard/types";
 import type { MapPoint } from "../components/LocationsMap/types";
 import type { GeofenceValue } from "../components/GeofenceField/types";
 import type { CheckinEvent } from "../components/LiveCheckinFeed/types";
@@ -55,6 +57,19 @@ const trabajadores: Record<string, Worker> = {
   ana: { id: "w3", nombre: "Ana Cruz", puesto: "Supervisora" },
   jorge: { id: "w4", nombre: "Jorge Uc", puesto: "Despachador" },
 };
+// Conversaciones de demo para WhatsAppCheckinCard.
+const chatFeliz: MensajeChat[] = [
+  { de: "empleado", tipo: "texto", texto: "Entrada" },
+  { de: "klokk", tipo: "texto", texto: "¡Hola María! 👋 Comparte tu ubicación para confirmar tu fichaje." },
+  { de: "empleado", tipo: "ubicacion", dentroGeocerca: true },
+  { de: "klokk", tipo: "confirmacion", hora: "08:02", sucursal: "Full Gas Mérida" },
+];
+const chatFuera: MensajeChat[] = [
+  { de: "empleado", tipo: "texto", texto: "Entrada" },
+  { de: "empleado", tipo: "ubicacion", dentroGeocerca: false },
+  { de: "klokk", tipo: "texto", texto: "Estás fuera del punto de trabajo. Acércate a la sucursal e intenta de nuevo." },
+];
+
 const accionesTrabajador: WorkerAction[] = [
   { label: "Ver perfil" },
   { label: "Ver fichajes" },
@@ -233,6 +248,29 @@ export default function Componentes() {
           </Estado>
           <Estado label="Tema oscuro">
             <KpiStatCard etiqueta="Asistencia hoy" valor={94} formato="porcentaje" delta={2} theme="dark" />
+          </Estado>
+        </div>
+      </Section>
+      <Section title="WhatsAppCheckinCard" tag="MARCA · producto">
+        <p className="-mt-2 mb-5 max-w-2xl text-sm text-ink-soft">
+          La checada por WhatsApp — el gancho de Klokk como componente: el empleado manda
+          "Entrada", comparte ubicación y queda fichado. Sin apps, sin hardware.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Estado label="Conversación · animada">
+            <WhatsAppCheckinCard mensajes={chatFeliz} animado />
+          </Estado>
+          <Estado label="Fuera del geocerco">
+            <WhatsAppCheckinCard mensajes={chatFuera} />
+          </Estado>
+          <Estado label="Cargando">
+            <WhatsAppCheckinCard mensajes={[]} estado="cargando" />
+          </Estado>
+          <Estado label="Vacío">
+            <WhatsAppCheckinCard mensajes={[]} estado="vacio" />
+          </Estado>
+          <Estado label="Tema oscuro">
+            <WhatsAppCheckinCard mensajes={chatFeliz} theme="dark" />
           </Estado>
         </div>
       </Section>
