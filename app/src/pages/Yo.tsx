@@ -181,58 +181,129 @@ function SectionHead({
   );
 }
 
-/* ── Intro: cubo 3D con la J (restaurado del legacy · DEC-004) ────────────── */
-/* Como el original: aparece en CADA visita a la página. Saltable con clic,
-   botón o Escape; con reduced-motion no se muestra. */
+/* ── Intro de marca (coreografía EXACTA del legacy · DEC-004) ─────────────── */
+/* Fases (tiempos del original, runBrandIntro):
+   A (0 ms)    la "J" plana entra suave; el tag aparece a los 820 ms
+   B (1000 ms) crossfade: la J se disuelve y el cubo entra girando LENTO (7 s/vuelta)
+   C (2600 ms) el cubo se desintegra: caras se separan hacia afuera y se apagan
+   D (3050 ms) el overlay se disuelve (1 s) MIENTRAS el nombre entra debajo
+   onEntrada() a los 2950 ms — como el runIntro() original.
+   Saltable (clic/botón/Escape). Con reduced-motion no se muestra. */
 
-function IntroCube() {
-  const [estado, setEstado] = useState<"oculto" | "visible" | "saliendo">("oculto");
+type FaseIntro = "pre" | "a" | "b" | "c" | "d" | "off";
+
+function IntroCube({ onEntrada }: { onEntrada: () => void }) {
+  const [fase, setFase] = useState<FaseIntro>("pre");
+  const avisado = useRef(false);
+
+  const entrar = () => {
+    if (!avisado.current) {
+      avisado.current = true;
+      onEntrada();
+    }
+  };
 
   useEffect(() => {
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    setEstado("visible");
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setFase("off");
+      entrar();
+      return;
+    }
+    // Doble frame para que la transición de la fase A dispare desde el estado inicial
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => setFase("a")));
+    const tB = setTimeout(() => setFase("b"), 1000);
+    const tC = setTimeout(() => setFase("c"), 2600);
+    const tHero = setTimeout(entrar, 2950);
+    const tD = setTimeout(() => setFase("d"), 3050);
+    const tOff = setTimeout(() => setFase("off"), 4200);
+    const conTecla = (e: KeyboardEvent) => {
+      if (e.key === "Escape") saltar();
+    };
+    document.addEventListener("keydown", conTecla);
+    return () => {
+      cancelAnimationFrame(raf);
+      [tB, tC, tHero, tD, tOff].forEach(clearTimeout);
+      document.removeEventListener("keydown", conTecla);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (estado === "oculto") return;
-    const saltarConTecla = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setEstado("saliendo");
-    };
-    document.addEventListener("keydown", saltarConTecla);
-    // 2.4 s visibles = una revolución completa del cubo (2.2 s) + aterrizaje
-    const t = setTimeout(() => setEstado("saliendo"), estado === "visible" ? 2400 : 500);
-    return () => {
-      document.removeEventListener("keydown", saltarConTecla);
-      clearTimeout(t);
-    };
-  }, [estado]);
+  const saltar = () => {
+    entrar();
+    setFase("d");
+    setTimeout(() => setFase("off"), 1000);
+  };
 
-  useEffect(() => {
-    if (estado !== "saliendo") return;
-    const t = setTimeout(() => setEstado("oculto"), 480);
-    return () => clearTimeout(t);
-  }, [estado]);
+  if (fase === "off") return null;
 
-  if (estado === "oculto") return null;
-  const saltar = () => setEstado("saliendo");
+  const enOMas = (f: FaseIntro) =>
+    ["pre", "a", "b", "c", "d"].indexOf(fase) >= ["pre", "a", "b", "c", "d"].indexOf(f);
 
   return (
-    <div className={`yo-intro ${estado === "saliendo" ? "yo-intro-out" : ""}`} role="presentation" onClick={saltar}>
-      <div className="yo-cube-scene" aria-hidden="true">
-        <div className="yo-cube">
-          <span className="yo-cube-face yo-cube-front">J.</span>
-          <span className="yo-cube-face yo-cube-back">J.</span>
-          <span className="yo-cube-face yo-cube-right">J.</span>
-          <span className="yo-cube-face yo-cube-left">J.</span>
-          <span className="yo-cube-face yo-cube-top">J.</span>
-          <span className="yo-cube-face yo-cube-bottom">J.</span>
+    <div
+      className={`yo-intro ${enOMas("c") ? "yo-intro-desintegra" : ""} ${fase === "d" ? "yo-intro-out" : ""}`}
+      role="presentation"
+      onClick={saltar}
+    >
+      <div className="yo-intro-centro" aria-hidden="true">
+        {/* La J plana (fase A, 150px desde scale .6); se disuelve al entrar el cubo */}
+        <span className={`yo-intro-j ${fase === "a" ? "yo-j-in" : ""} ${enOMas("b") ? "yo-j-out" : ""}`}>
+          J<span className="yo-j-punto">.</span>
+        </span>
+        {/* El cubo (fase B): giro lento e INCLINADO (rotateX -22°), como el original.
+            Caras laterales con "J" color papel; superior e inferior vacías. */}
+        <div className={`yo-cube ${enOMas("b") ? "yo-cube-in" : ""}`}>
+          <span className="yo-cube-face yo-cube-front">J</span>
+          <span className="yo-cube-face yo-cube-back">J</span>
+          <span className="yo-cube-face yo-cube-right">J</span>
+          <span className="yo-cube-face yo-cube-left">J</span>
+          <span className="yo-cube-face yo-cube-top" />
+          <span className="yo-cube-face yo-cube-bottom" />
         </div>
       </div>
-      <p className="yo-intro-tag">Juan Pablo Figueroa</p>
+      <p
+        aria-hidden="true"
+        className={`yo-intro-tag ${enOMas("a") && !enOMas("c") ? "yo-tag-in" : ""} ${enOMas("c") ? "yo-tag-out" : ""}`}
+      >
+        Juan Pablo Figueroa
+      </p>
       <button type="button" className="yo-intro-skip" onClick={saltar}>
         Saltar intro
       </button>
     </div>
+  );
+}
+
+/* ── Nombre letra por letra (como runIntro del legacy) ────────────────────── */
+/* Cada letra sube con blur que se aclara, escalonada 120 + i·36 ms. */
+
+const LINEAS_NOMBRE = ["Juan Pablo", "Figueroa"];
+
+function NombreAnimado() {
+  let indice = 0;
+  return (
+    <h1
+      aria-label="Juan Pablo Figueroa"
+      className="m-0 font-display text-[clamp(46px,8.6vw,116px)] font-bold leading-[.96] tracking-[-0.035em]"
+    >
+      {LINEAS_NOMBRE.map((linea, l) => (
+        <span
+          key={linea}
+          aria-hidden="true"
+          className={`block whitespace-nowrap ${l === 1 ? "text-[#aeaaa1]" : "text-ink"}`}
+        >
+          {[...linea].map((ch, k) => (
+            <span
+              key={`${l}-${k}`}
+              className="yo-letra"
+              style={{ animationDelay: `${120 + indice++ * 36}ms` }}
+            >
+              {ch === " " ? " " : ch}
+            </span>
+          ))}
+        </span>
+      ))}
+    </h1>
   );
 }
 
@@ -241,40 +312,57 @@ function IntroCube() {
 
 const GEO = { lat: 20.9674, lng: 89.6237 };
 
-function GeoCounter() {
+function GeoCounter({ delayMs = 0 }: { delayMs?: number }) {
   const reduced =
     typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-  const [p, setP] = useState(reduced ? 1 : 0);
+  const [txt, setTxt] = useState(() =>
+    reduced ? { lat: GEO.lat.toFixed(4), lng: GEO.lng.toFixed(4) } : { lat: "0.0000", lng: "0.0000" },
+  );
   const [fijado, setFijado] = useState(!!reduced);
 
   useEffect(() => {
     if (reduced) return;
-    const start = performance.now();
-    const dur = 1600;
     let raf = 0;
-    const step = (now: number) => {
-      const t = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setP(eased);
-      if (t < 1) raf = requestAnimationFrame(step);
-      else setFijado(true);
+    // Espera su turno en la coreografía (el original: after + 650 ms)
+    const espera = setTimeout(() => {
+      const start = performance.now();
+      const dur = 1600;
+      const step = (now: number) => {
+        const p = Math.min(1, (now - start) / dur);
+        // Easing cuártico + jitter decreciente, EXACTO al original:
+        // los dígitos tiemblan "buscando señal" y se asientan al fijarse.
+        const eased = 1 - Math.pow(1 - p, 4);
+        const j = () => (p < 1 ? (Math.random() - 0.5) * (1 - eased) * 0.6 : 0);
+        setTxt({
+          lat: Math.max(0, GEO.lat * eased + j()).toFixed(4),
+          lng: Math.max(0, GEO.lng * eased + j()).toFixed(4),
+        });
+        if (p < 1) raf = requestAnimationFrame(step);
+        else {
+          setTxt({ lat: GEO.lat.toFixed(4), lng: GEO.lng.toFixed(4) });
+          setFijado(true);
+        }
+      };
+      raf = requestAnimationFrame(step);
+    }, delayMs);
+    return () => {
+      clearTimeout(espera);
+      cancelAnimationFrame(raf);
     };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [reduced]);
+  }, [reduced, delayMs]);
 
   return (
-    <span className="font-mono text-xs text-accent">
+    <>
       <span aria-hidden="true" className="tabular-nums">
-        {(GEO.lat * p).toFixed(4)}° N · {(GEO.lng * p).toFixed(4)}° W
+        {txt.lat}° N · {txt.lng}° W
       </span>
       <span className="sr-only">20.9674° N · 89.6237° W</span>
       {fijado && (
-        <span className="ml-1.5 font-semibold" aria-hidden="true">
+        <span className="ml-1.5 font-semibold text-accent" aria-hidden="true">
           fijado ✓
         </span>
       )}
-    </span>
+    </>
   );
 }
 
@@ -364,65 +452,73 @@ function TimelineInteractivo() {
 /* ── Página Yo ────────────────────────────────────────────────────────────── */
 
 export default function Yo() {
+  // Coreografía de entrada (como el legacy): el hero NO monta hasta que el cubo
+  // empieza a desvanecerse — así el nombre entra escalonado y las coordenadas
+  // cuentan en vivo justo en el handoff, no escondidas bajo el overlay.
+  const [entrada, setEntrada] = useState(false);
+
   return (
     <div className="yo-page mx-auto max-w-5xl px-5 pb-24 pt-10 sm:px-8">
-      <IntroCube />
+      <IntroCube onEntrada={() => setEntrada(true)} />
       {/* ── Hero ─────────────────────────────────────────────────── */}
+      {entrada && (
       <section className="flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-12">
         {/* Columna izquierda: texto */}
         <div className="flex-1">
-          {/* Chip ubicación */}
-          <Reveal>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-paper-2 px-3 py-1.5">
-              <span className="text-xs font-semibold text-ink-soft">Mérida, Yucatán · MX</span>
-              <GeoCounter />
+          {/* Ubicación — línea con punto azul, sin pill (como el original) */}
+          <Reveal delayMs={1450}>
+            <div className="mb-4 inline-flex items-center gap-[9px] font-mono text-[12.5px] tracking-[.04em] text-ink-soft">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+              Mérida, Yucatán · MX
             </div>
           </Reveal>
 
-          {/* h1 */}
-          <Reveal delayMs={60}>
-            <h1 className="font-display text-5xl font-extrabold leading-none tracking-tight sm:text-6xl">
-              <span className="block text-ink">Juan Pablo</span>
-              <span className="block text-ink-soft">Figueroa</span>
-            </h1>
+          {/* Coordenadas — línea propia, cuentan con jitter hasta fijarse */}
+          <Reveal delayMs={1555}>
+            <div className="mb-[30px] whitespace-nowrap font-mono text-[12.5px] tracking-[.04em] text-ink-soft">
+              <GeoCounter delayMs={2100} />
+            </div>
           </Reveal>
 
+          {/* h1 — letra por letra con blur, lo primero que entra */}
+          <NombreAnimado />
+
           {/* Tagline */}
-          <Reveal delayMs={100}>
-            <p className="mt-3 font-mono text-sm text-ink-soft">
+          <Reveal delayMs={1660}>
+            <p className="mt-[26px] font-mono text-[clamp(13px,1.5vw,15.5px)] tracking-[.01em] text-ink-soft">
               17 · futuro Ing. en Transformación Digital
             </p>
           </Reveal>
 
           {/* Bio */}
-          <Reveal delayMs={140}>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-soft">
+          <Reveal delayMs={1765}>
+            <p className="mt-5 max-w-[520px] text-[clamp(15px,1.6vw,18px)] leading-[1.64] text-ink-soft">
               Nací y crecí en Mérida. Pasé dos años estudiando en Londres y ahora estoy de vuelta en
               casa terminando la prepa. Me mueve el deporte, la tecnología y la ambición de convertir
               ideas en productos reales.
             </p>
           </Reveal>
 
-          {/* CTAs */}
-          <Reveal delayMs={180}>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+          {/* CTAs — primario con hover azul, como el original */}
+          <Reveal delayMs={1870}>
+            <div className="mt-[38px] flex flex-wrap items-center gap-[18px]">
               <a
                 href="#trayectoria"
-                className="inline-flex min-h-11 items-center rounded-card bg-ink px-5 py-2.5 text-sm font-semibold text-paper transition-colors duration-150 hover:bg-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="inline-flex items-center rounded-lg bg-ink px-[26px] py-3.5 text-[15px] font-medium text-[#f6f5f3] transition-colors duration-200 hover:bg-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 Ver mi trayectoria
               </a>
               <a
                 href="#meta"
-                className="inline-flex min-h-11 items-center text-sm font-semibold text-accent transition-colors duration-150 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="inline-flex items-center gap-2 text-[15px] font-medium text-ink-soft transition-colors duration-200 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
-                Mis metas →
+                Mis metas <span className="font-mono">→</span>
               </a>
             </div>
           </Reveal>
 
           {/* Mini-tarjeta de stats (terminal) */}
-          <Reveal delayMs={220}>
+          <Reveal delayMs={1975}>
             <div className="mt-8 inline-block rounded-card border border-line bg-paper-2 px-5 py-4 font-mono text-xs">
               <p className="mb-2 text-accent">// estado</p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
@@ -451,17 +547,19 @@ export default function Yo() {
           </Reveal>
         </div>
 
-        {/* Columna derecha: foto */}
-        <Reveal delayMs={80} className="flex-shrink-0">
-          <div className="w-full sm:w-64 md:w-72">
+        {/* Columna derecha: foto — ya asentada cuando el overlay se disuelve
+            (en el original animaba bajo el overlay y se revelaba lista) */}
+        <div className="w-full flex-shrink-0 sm:w-64 md:w-72">
+          <div className="yo-foto">
             <img
               src={fotoJP}
               alt="Retrato de Juan Pablo Figueroa"
-              className="aspect-[4/5] w-full rounded-card object-cover grayscale transition duration-500 hover:grayscale-0"
+              className="block aspect-[4/5] w-full object-cover"
             />
           </div>
-        </Reveal>
+        </div>
       </section>
+      )}
 
       {/* ── 01 · Trayectoria ─────────────────────────────────────── */}
       <section

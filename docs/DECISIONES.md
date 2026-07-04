@@ -59,3 +59,22 @@
 - **Consecuencias:** queda la regla AP-006 — decisiones de identidad visual no se
   toman en loops autónomos; van a PARA-HUMANO primero.
 - **Estado:** vigente
+
+## DEC-005 · 2026-07-02 · El intro de Yo se porta 1:1 del código fuente del legacy
+- **Contexto:** dos restauraciones "aproximadas" no pasaron el estándar de JP
+  ("exactamente como antes"). El código original completo estaba en `_legacy/yo.html`.
+- **Decisión:** port literal de `runBrandIntro`/`prepIntro`/`runIntro`/`animateGeo`:
+  fases 0/1000/2600/2950/3050/4200 ms; J plana 150px (scale .6→1→1.25); cubo 120px
+  con giro INCLINADO `rotateX(-22°)` a 7 s/vuelta; caras con bordes translúcidos y
+  superior/inferior vacías; nombre en 18 letras (espacio incluido) desde
+  translateY(24px)/scale(.94)/blur(7px) con stagger 120+i·36; cascada del hero a
+  i·105 tras after=1448 con easings .9s/.85s cbz(.2,.6,.2,1); coordenadas con easing
+  cuártico y JITTER decreciente a los after+650. Hero reestructurado al original
+  (ubicación con punto sin pill, coords en línea propia, h1 clamp 46–116px,
+  "Figueroa" #aeaaa1, CTA hover azul, foto asentada al disolverse el overlay).
+- **Mejoras conservadas** (pedido de JP "con las nuevas mejoras"): "fijado ✓" (en el
+  original era código muerto — ref sin cablear, verificado en vivo), botón Saltar +
+  Escape, exclusión por reduced-motion, textos mono en ink-soft (AA) en vez del
+  #8f8c84 original (AP-004).
+- **Descartado:** tercera ronda de afinación de memoria (tres strikes, ver AP-007).
+- **Estado:** vigente

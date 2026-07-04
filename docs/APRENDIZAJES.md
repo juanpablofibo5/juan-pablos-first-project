@@ -60,3 +60,18 @@
   ("propongo quitar X por Y — ¿apruebas?") ANTES de ejecutarlo, o se implementa
   preservando el elemento. Reconstruir ≠ rediseñar sin permiso.
 - **Refs:** DEC-003, bitácora 2026-07-01-loop-2-nocturno, sesión 2026-07-02
+
+## AP-007 · 2026-07-02 · Las animaciones no se aproximan: se portan del código fuente `[proceso]`
+- **Síntoma:** tres iteraciones del intro rechazadas por el dueño ("no es como
+  antes") a pesar de gates verdes y axe 0.
+- **Causa real:** reconstruí de memoria/fragmentos una coreografía cuyo código
+  exacto estaba disponible en `_legacy/`. Los detalles que hacen el "feel"
+  (rotateX −22°, 7 s/vuelta, blur 7px, jitter del contador, cascada i·105) no se
+  adivinan — se leen.
+- **Regla que queda:** para replicar comportamiento existente: (1) extraer PRIMERO
+  la implementación original completa (tiempos, easings, estados iniciales,
+  markup); (2) portarla literal; (3) solo entonces proponer mejoras, marcadas como
+  tales. Verificar contra la referencia con muestreo temporal (tip: navegación SPA
+  dentro de un eval — la navegación completa en el preview tarda 10–13 s y llega
+  tarde a las fases tempranas).
+- **Refs:** B-012, DEC-005, bitácora 2026-07-02-loop-3
