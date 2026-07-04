@@ -5,7 +5,7 @@
 
 | ID | P | Ítem | Criterio de aceptación | Origen | Estado |
 |---|---|---|---|---|---|
-| — | — | *(vacío: el AUDIT 2026-07 quedó saldado; la siguiente fase se decide con JP — ver PARA-HUMANO)* | | | |
+| — | — | *(vacío: siguiente fase pendiente de decisión de JP — ver PARA-HUMANO)* | | | |
 
 ## Cerrados
 

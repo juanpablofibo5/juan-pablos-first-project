@@ -43,4 +43,19 @@
   a11y y móvil, y el splash era ornamento sin información.
 - **Consecuencias:** mueren `public/yo.html` y `public/support.js` (−292 KB);
   la app entera es React nativo — cero iframes.
+- **Estado:** matizada por DEC-004 (la simplificación visual se revirtió)
+
+## DEC-004 · 2026-07-02 · La personalidad del legacy se restaura (veto de JP a DEC-003)
+- **Contexto:** JP volvió del loop nocturno preguntando por el cubo J, las
+  coordenadas animadas y el timeline gráfico. DEC-003 los había eliminado por
+  criterio técnico — pero eran identidad, no ornamento (ver AP-006).
+- **Decisión:** los tres se restauran en React nativo: IntroCube (una vez por
+  sesión, saltable con clic/botón/Escape, no monta con reduced-motion),
+  GeoCounter (0.0000 → 20.9674° N con "fijado ✓", con fallback estático y
+  sr-only), TimelineInteractivo (patrón tabs accesible: nodos sobre línea, chip
+  activo en tinta, burbuja de detalle, ← → por teclado).
+- **Descartado:** volver al runtime JS del legacy (muerto con razón); y dejar la
+  página simplificada (el dueño ya vetó esa dirección).
+- **Consecuencias:** queda la regla AP-006 — decisiones de identidad visual no se
+  toman en loops autónomos; van a PARA-HUMANO primero.
 - **Estado:** vigente

@@ -59,6 +59,71 @@ body { font-family: var(--font-sans); color: var(--color-ink); }
   .reveal { animation: none !important; transition: none !important; opacity: 1; transform: none; }
 }
 
+/* ── Intro de la página Yo: cubo 3D con la J (restaurado del legacy, DEC-004) ── */
+.yo-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  background: var(--color-paper);
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+.yo-intro-out { opacity: 0; pointer-events: none; }
+.yo-cube-scene { width: 96px; height: 96px; perspective: 700px; }
+.yo-cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: yo-cube-spin 2.4s cubic-bezier(0.45, 0.05, 0.35, 1) infinite;
+}
+@keyframes yo-cube-spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+.yo-cube-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 42px;
+  color: #fff;
+}
+/* Caras alternando la paleta del legacy: tinta, azul profundo, azul acento */
+.yo-cube-front  { transform: translateZ(48px); background: #1c1c1a; }
+.yo-cube-back   { transform: rotateY(180deg) translateZ(48px); background: #243149; }
+.yo-cube-right  { transform: rotateY(90deg) translateZ(48px); background: #3a5688; }
+.yo-cube-left   { transform: rotateY(-90deg) translateZ(48px); background: #243149; }
+.yo-cube-top    { transform: rotateX(90deg) translateZ(48px); background: #3a5688; }
+.yo-cube-bottom { transform: rotateX(-90deg) translateZ(48px); background: #1c1c1a; }
+.yo-intro-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+.yo-intro-skip {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-line);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  background: var(--color-paper);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.yo-intro-skip:hover { color: var(--color-ink); background: var(--color-paper-2); }
+.yo-intro-skip:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+/* El componente además no monta el intro con reduced-motion; esto es cinturón y tirantes */
+@media (prefers-reduced-motion: reduce) {
+  .yo-intro { display: none; }
+  .yo-cube { animation: none; }
+}
+
 /* ── Marca Klokk · Clay Design System (alcance acotado a la sección) ──────────
    Estos tokens viven solo bajo .klokk-brand para no contaminar el resto del
    portafolio (Home/Yo/Componentes conservan su identidad neutra + azul). */

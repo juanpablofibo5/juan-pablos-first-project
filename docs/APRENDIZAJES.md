@@ -46,3 +46,17 @@
   fallo de deployment sin causa en el build: `gh run rerun --failed` UNA vez antes
   de diagnosticar.
 - **Refs:** B-009 (pases 2 y 3), bitácora 2026-07-01-loop-2-nocturno
+
+## AP-006 · 2026-07-02 · Las decisiones de gusto/producto no se toman en loops autónomos `[proceso]`
+- **Síntoma:** JP volvió y preguntó "¿por qué desaparecieron el cubo J, las
+  coordenadas animadas y el timeline gráfico?" — piezas que el loop nocturno
+  eliminó al reconstruir la página Yo (DEC-003).
+- **Causa real:** el agente trató una decisión de PERSONALIDAD del producto como
+  decisión técnica. Argumentos de a11y/simplicidad válidos, pero la identidad
+  visual es territorio del dueño; documentarla en DECISIONES no sustituye pedir
+  su veto.
+- **Regla que queda:** en trabajo autónomo, todo cambio que ALTERE la identidad
+  visual o elimine elementos distintivos existentes → fila en PARA-HUMANO
+  ("propongo quitar X por Y — ¿apruebas?") ANTES de ejecutarlo, o se implementa
+  preservando el elemento. Reconstruir ≠ rediseñar sin permiso.
+- **Refs:** DEC-003, bitácora 2026-07-01-loop-2-nocturno, sesión 2026-07-02

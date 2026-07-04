@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "../components/brand/CountUp";
 import Reveal from "../components/brand/Reveal";
@@ -180,11 +181,195 @@ function SectionHead({
   );
 }
 
+/* ── Intro: cubo 3D con la J (restaurado del legacy · DEC-004) ────────────── */
+/* Una vez por sesión de navegador; saltable con clic, botón o Escape;
+   con reduced-motion no se muestra. */
+
+function IntroCube() {
+  const [estado, setEstado] = useState<"oculto" | "visible" | "saliendo">("oculto");
+
+  useEffect(() => {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (sessionStorage.getItem("yo-intro-vista")) return;
+    setEstado("visible");
+  }, []);
+
+  useEffect(() => {
+    if (estado === "oculto") return;
+    const saltarConTecla = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setEstado("saliendo");
+    };
+    document.addEventListener("keydown", saltarConTecla);
+    const t = setTimeout(() => setEstado("saliendo"), estado === "visible" ? 2100 : 500);
+    return () => {
+      document.removeEventListener("keydown", saltarConTecla);
+      clearTimeout(t);
+    };
+  }, [estado]);
+
+  useEffect(() => {
+    if (estado !== "saliendo") return;
+    const t = setTimeout(() => {
+      sessionStorage.setItem("yo-intro-vista", "1");
+      setEstado("oculto");
+    }, 480);
+    return () => clearTimeout(t);
+  }, [estado]);
+
+  if (estado === "oculto") return null;
+  const saltar = () => setEstado("saliendo");
+
+  return (
+    <div className={`yo-intro ${estado === "saliendo" ? "yo-intro-out" : ""}`} role="presentation" onClick={saltar}>
+      <div className="yo-cube-scene" aria-hidden="true">
+        <div className="yo-cube">
+          <span className="yo-cube-face yo-cube-front">J.</span>
+          <span className="yo-cube-face yo-cube-back">J.</span>
+          <span className="yo-cube-face yo-cube-right">J.</span>
+          <span className="yo-cube-face yo-cube-left">J.</span>
+          <span className="yo-cube-face yo-cube-top">J.</span>
+          <span className="yo-cube-face yo-cube-bottom">J.</span>
+        </div>
+      </div>
+      <p className="yo-intro-tag">Juan Pablo Figueroa</p>
+      <button type="button" className="yo-intro-skip" onClick={saltar}>
+        Saltar intro
+      </button>
+    </div>
+  );
+}
+
+/* ── Coordenadas animadas (restaurado del legacy · DEC-004) ───────────────── */
+/* Cuentan de 0.0000 al valor real y rematan con "fijado ✓". */
+
+const GEO = { lat: 20.9674, lng: 89.6237 };
+
+function GeoCounter() {
+  const reduced =
+    typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const [p, setP] = useState(reduced ? 1 : 0);
+  const [fijado, setFijado] = useState(!!reduced);
+
+  useEffect(() => {
+    if (reduced) return;
+    const start = performance.now();
+    const dur = 1600;
+    let raf = 0;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setP(eased);
+      if (t < 1) raf = requestAnimationFrame(step);
+      else setFijado(true);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+
+  return (
+    <span className="font-mono text-xs text-accent">
+      <span aria-hidden="true" className="tabular-nums">
+        {(GEO.lat * p).toFixed(4)}° N · {(GEO.lng * p).toFixed(4)}° W
+      </span>
+      <span className="sr-only">20.9674° N · 89.6237° W</span>
+      {fijado && (
+        <span className="ml-1.5 font-semibold" aria-hidden="true">
+          fijado ✓
+        </span>
+      )}
+    </span>
+  );
+}
+
+/* ── Timeline gráfico interactivo (restaurado del legacy · DEC-004) ────────── */
+/* Patrón tabs accesible: nodos sobre la línea, chip activo en tinta,
+   burbuja de detalle abajo; ← → navegan con teclado. */
+
+function TimelineInteractivo() {
+  const [idx, setIdx] = useState(0);
+  const tabsRef = useRef<HTMLDivElement>(null);
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    const next =
+      e.key === "ArrowRight" ? Math.min(idx + 1, TIMELINE.length - 1) : Math.max(idx - 1, 0);
+    setIdx(next);
+    tabsRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
+  };
+
+  const item = TIMELINE[idx];
+
+  return (
+    <div className="mt-10">
+      <div className="relative">
+        <div aria-hidden="true" className="absolute left-0 right-0 top-[8px] h-px bg-line" />
+        <div
+          ref={tabsRef}
+          role="tablist"
+          aria-label="Hitos de trayectoria"
+          onKeyDown={onKeyDown}
+          className="relative flex gap-6 overflow-x-auto pb-3 pt-0.5"
+        >
+          {TIMELINE.map((t, i) => {
+            const active = i === idx;
+            return (
+              <button
+                key={`${t.year}-${t.title}`}
+                type="button"
+                role="tab"
+                id={`hito-tab-${i}`}
+                aria-selected={active}
+                aria-controls="hito-panel"
+                tabIndex={active ? 0 : -1}
+                onClick={() => setIdx(i)}
+                className="group flex shrink-0 flex-col items-center gap-2 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-[15px] w-[15px] rounded-full border-2 transition-colors ${
+                    active
+                      ? t.next
+                        ? "border-accent bg-accent"
+                        : "border-ink bg-ink"
+                      : t.next
+                        ? "border-accent bg-paper group-hover:bg-accent/20"
+                        : "border-line bg-paper group-hover:border-ink"
+                  }`}
+                />
+                <span
+                  className={`whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-xs transition-colors ${
+                    active ? "bg-ink text-paper" : "bg-paper-2 text-ink-soft group-hover:text-ink"
+                  }`}
+                >
+                  {t.year}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div
+        id="hito-panel"
+        role="tabpanel"
+        aria-labelledby={`hito-tab-${idx}`}
+        className="mt-5 rounded-card border border-line bg-paper-2/60 p-6"
+      >
+        <span className="font-mono text-xs font-semibold text-accent">{item.year}</span>
+        <h3 className="mt-1 font-display text-xl font-bold text-ink">{item.title}</h3>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">{item.desc}</p>
+      </div>
+    </div>
+  );
+}
+
 /* ── Página Yo ────────────────────────────────────────────────────────────── */
 
 export default function Yo() {
   return (
     <div className="yo-page mx-auto max-w-5xl px-5 pb-24 pt-10 sm:px-8">
+      <IntroCube />
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <section className="flex flex-col gap-10 sm:flex-row sm:items-start sm:gap-12">
         {/* Columna izquierda: texto */}
@@ -193,9 +378,7 @@ export default function Yo() {
           <Reveal>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-paper-2 px-3 py-1.5">
               <span className="text-xs font-semibold text-ink-soft">Mérida, Yucatán · MX</span>
-              <span className="font-mono text-xs text-accent" aria-label="Coordenadas">
-                20.9674° N · 89.6237° W
-              </span>
+              <GeoCounter />
             </div>
           </Reveal>
 
@@ -297,41 +480,13 @@ export default function Yo() {
           />
         </Reveal>
 
-        {/* Timeline vertical */}
-        <ol className="mt-10 space-y-0" aria-label="Hitos de trayectoria">
-          {TIMELINE.map((item, i) => (
-            <li key={`${item.year}-${item.title}`}>
-              <Reveal delayMs={i * 40} className="relative flex gap-5 pb-8">
-                {/* Línea vertical */}
-                {i < TIMELINE.length - 1 && (
-                  <div
-                    aria-hidden="true"
-                    className="absolute left-[7px] top-4 h-full w-px bg-line"
-                  />
-                )}
-
-                {/* Punto */}
-                <div
-                  aria-hidden="true"
-                  className={`relative mt-1 h-3.5 w-3.5 flex-shrink-0 rounded-full border-2 ${
-                    item.next
-                      ? "border-accent bg-accent"
-                      : "border-line bg-paper"
-                  }`}
-                />
-
-                {/* Contenido */}
-                <div className="min-w-0 flex-1">
-                  <span className="font-mono text-xs font-semibold text-accent">
-                    {item.year}
-                  </span>
-                  <h3 className="mt-0.5 font-semibold text-ink">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{item.desc}</p>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
+        {/* Timeline gráfico interactivo (DEC-004) */}
+        <Reveal delayMs={80}>
+          <p className="mt-3 font-mono text-xs text-ink-soft">
+            toca cada punto · o navega con ← →
+          </p>
+          <TimelineInteractivo />
+        </Reveal>
       </section>
 
       {/* ── 02 · En un año ───────────────────────────────────────── */}
