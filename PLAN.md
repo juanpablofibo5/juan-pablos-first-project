@@ -43,7 +43,7 @@ el flujo completo: **quién está → cómo checó → confiable o no → númer
 
 ---
 
-## P-01 · KpiStatCard (TarjetaKPI) — `pendiente`
+## P-01 · KpiStatCard (TarjetaKPI) — `completado`
 
 **Por qué primero:** la pieza más simple y más reutilizada (cabecera del
 dashboard); calienta el loop y no depende de nada.

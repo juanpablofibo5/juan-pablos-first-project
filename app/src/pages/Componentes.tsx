@@ -6,6 +6,7 @@ import { LiveCheckinFeed } from "../components/LiveCheckinFeed/LiveCheckinFeed";
 import { OvertimeMeter } from "../components/OvertimeMeter/OvertimeMeter";
 import { IntegrityBadge } from "../components/IntegrityBadge/IntegrityBadge";
 import { WorkerStatusCard } from "../components/WorkerStatusCard/WorkerStatusCard";
+import { KpiStatCard } from "../components/KpiStatCard/KpiStatCard";
 import type { MapPoint } from "../components/LocationsMap/types";
 import type { GeofenceValue } from "../components/GeofenceField/types";
 import type { CheckinEvent } from "../components/LiveCheckinFeed/types";
@@ -207,6 +208,32 @@ export default function Componentes() {
         <div className="grid gap-4 rounded-2xl bg-ink-900 p-4 sm:grid-cols-2">
           <WorkerStatusCard worker={trabajadores.maria} status="presente" insideGeofence lastCheckin={ahora - 120_000} acciones={accionesTrabajador} theme="dark" />
           <WorkerStatusCard worker={trabajadores.jorge} status="ausente" insideGeofence={false} lastCheckin={ahora - 26 * 60 * 60_000} acciones={accionesTrabajador} theme="dark" />
+        </div>
+      </Section>
+      <Section title="KpiStatCard" tag="NÚCLEO · métricas">
+        <p className="-mt-2 mb-5 max-w-2xl text-sm text-ink-soft">
+          Métrica de cabecera con tendencia vs periodo anterior. La semántica es por
+          contexto: <strong>retardos que bajan pintan verde</strong> (<code>deltaBuenoCuando="baja"</code>).
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <KpiStatCard etiqueta="Asistencia hoy" valor={94} formato="porcentaje" delta={2} />
+          <KpiStatCard etiqueta="Retardos hoy" valor={3} delta={-1} deltaBuenoCuando="baja" periodo="vs ayer" />
+          <KpiStatCard etiqueta="Horas extra" valor={8} formato="horas" delta={2} deltaBuenoCuando="baja" />
+          <KpiStatCard etiqueta="Checadas del mes" valor={1240} delta={0} />
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Estado label="Cargando">
+            <KpiStatCard etiqueta="Asistencia hoy" valor={0} estado="cargando" />
+          </Estado>
+          <Estado label="Error">
+            <KpiStatCard etiqueta="Asistencia hoy" valor={0} estado="error" mensajeError="No se pudo cargar" />
+          </Estado>
+          <Estado label="Sin tendencia">
+            <KpiStatCard etiqueta="Sucursales activas" valor={4} />
+          </Estado>
+          <Estado label="Tema oscuro">
+            <KpiStatCard etiqueta="Asistencia hoy" valor={94} formato="porcentaje" delta={2} theme="dark" />
+          </Estado>
         </div>
       </Section>
     </div>
