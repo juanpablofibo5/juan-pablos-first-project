@@ -1,6 +1,7 @@
 # PLAN.md — Librería Klokk · tanda 2 (dashboard)
 
-> **Estado: EN REVISIÓN** — pendiente de aprobación de JP (fase A del ejercicio).
+> **Estado: APROBADO** por JP · 2026-07-02 ("aprobado tal cual") — fase B corriendo:
+> loop multi-agente (builders `sonnet` por ítem, orquestador Fable 5 verifica y cablea).
 > **Insumo:** `docs/AUDIT-2026-07.md` + estado real de la librería (6 componentes
 > hechos: LocationsMap, GeofenceField, LiveCheckinFeed, OvertimeMeter,
 > IntegrityBadge, WorkerStatusCard — todos con axe 0 y tests).

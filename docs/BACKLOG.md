@@ -5,7 +5,7 @@
 
 | ID | P | Ítem | Criterio de aceptación | Origen | Estado |
 |---|---|---|---|---|---|
-| — | — | *(vacío: siguiente fase pendiente de decisión de JP — ver PARA-HUMANO)* | | | |
+| B-014 | P1 | Ejecutar PLAN.md tanda 2 (4 componentes, loop multi-agente) | Los ítems P-01…P-04 `completado` en PLAN.md cumpliendo su criterio global + específico; CHANGELOG con entrada por vuelta + resumen; commit por ítem; CI verde | PLAN.md aprobado por JP 2026-07-02 | en-curso |
 
 ## Cerrados
 
