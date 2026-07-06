@@ -5,7 +5,12 @@
 
 | ID | P | Ítem | Criterio de aceptación | Origen | Estado |
 |---|---|---|---|---|---|
-| — | — | *(vacío: ver PARA-HUMANO — decisión de fase y oportunidad Klokk.tsx)* | | | |
+| B-015 | P2 | Higiene de la tanda 2: iconos compartidos + micro-limpiezas | `shared/iconos.tsx` con los primitivos (Pin/Check/Cross/Alerta); 8 funciones locales migradas sin cambio visual; `void deltaBuenoCuando` eliminado; gates + axe 0 | AUDIT 2026-07-b F-01/F-05 | pendiente |
+| B-016 | P2 | Lazy-loading por ruta + foto optimizada | `React.lazy` por página + chunk de leaflet separado; /yo y /klokk no descargan el mapa; foto ≤40 KB; bundle inicial medido antes/después en el AUDIT | AUDIT 2026-07-b F-02 | pendiente |
+| B-017 | P3 | Dieta de paleta de WhatsAppCheckinCard | 16 hex únicos → constantes nombradas estilo NIVEL/STATUS (o tokens); mismo render (screenshot antes/después idéntico); axe 0 | AUDIT 2026-07-b F-03 | pendiente |
+| B-018 | P3 | Hora relativa consistente (hook `useAhora`) | WorkerStatusCard (y por composición TeamStatusBoard) actualizan "hace N min" cada 15 s como LiveCheckinFeed; test del hook | AUDIT 2026-07-b F-04 | pendiente |
+| B-019 | P3 | Ciclo de vida de artefactos de loop | PLAN/CHANGELOG de tanda cerrada archivados en `docs/loops/2026-07-tanda2/`; regla en el playbook (07-CATALOGO) | AUDIT 2026-07-b F-06 | pendiente |
+| B-020 | P3 | CI: cancel-in-progress en deploys | `cancel-in-progress: true` en el group pages; una ráfaga de pushes no deja runs rojos de cola | AUDIT 2026-07-b F-07 | pendiente |
 
 ## Cerrados
 

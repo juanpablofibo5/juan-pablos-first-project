@@ -3,11 +3,9 @@
 > Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-02 · por Claude (Fable 5)
 
 ## Ahora
-- **Loop 4 (tanda 2 del PLAN) cerrado: 4/4 ítems, 0 atascos.** La librería pasó
-  de 6 a **10 componentes** (KpiStatCard, WhatsAppCheckinCard, TeamStatusBoard,
-  StpsReportCard), suite 29 → **108 tests**, axe 0. Fase C de JP: leer
-  `CHANGELOG.md` (raíz). Reglas nuevas: gates por exit code (AP-008 pendiente
-  de escribir en APRENDIZAJES por el propio hallazgo del loop).
+- **AUDIT 2026-07-b entregado** (revisión profunda del build de la tanda 2, pedido
+  por JP para su fase C): calidad homogénea, deuda nueva menor y medida →
+  6 ítems nuevos B-015…B-020 en el backlog. Leer junto con `CHANGELOG.md`.
 
 ## Siguiente
 - **Decisión de JP pendiente:** la siguiente fase del proyecto (4 opciones en
