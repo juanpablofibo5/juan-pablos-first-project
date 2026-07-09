@@ -25,9 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Versión de pnpm: la del campo packageManager de app/package.json
+      # (una sola fuente de verdad para CI y Vercel)
       - uses: pnpm/action-setup@v6
         with:
-          version: 11
+          package_json_file: app/package.json
 
       - uses: actions/setup-node@v5
         with:
