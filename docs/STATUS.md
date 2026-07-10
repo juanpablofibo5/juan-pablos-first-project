@@ -1,14 +1,18 @@
 # STATUS — juan-pablos-first-project
 
-> Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-02 · por Claude (Fable 5)
+> Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-09 · por Claude (Fable 5)
 
 ## Ahora
-- **AUDIT 2026-07-b entregado** (revisión profunda del build de la tanda 2, pedido
-  por JP para su fase C): calidad homogénea, deuda nueva menor y medida →
-  6 ítems nuevos B-015…B-020 en el backlog. Leer junto con `CHANGELOG.md`.
+- **Producción en Vercel LIVE** (DEC-006): https://juan-pablos-first-project.vercel.app
+  sirve la app en la raíz con deep links a HTTP 200 (rewrites SPA). Deploy inicial a
+  prod por CLI ✓ verificado. Pages sigue como espejo + gate de calidad.
+- **AUDIT 2026-07-b entregado** (revisión profunda del build de la tanda 2, fase C):
+  calidad homogénea, deuda menor → B-015…B-020 en el backlog. Leer con `CHANGELOG.md`.
 
 ## Siguiente
-- **Decisión de JP pendiente:** la siguiente fase del proyecto (4 opciones en
+- **2 acciones de JP en `docs/PARA-HUMANO.md` (P1):** (1) conectar la GitHub App de
+  Vercel → deploy-en-push automático; (2) agregar el dominio + DNS (Hostinger↔Vercel).
+- **Decisión de JP pendiente:** la siguiente fase del proyecto (opciones en
   `docs/PARA-HUMANO.md`; recomendación del agente: app real de Klokk).
 
 ## Bloqueado / atorado

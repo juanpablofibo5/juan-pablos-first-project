@@ -78,3 +78,28 @@
   #8f8c84 original (AP-004).
 - **Descartado:** tercera ronda de afinación de memoria (tres strikes, ver AP-007).
 - **Estado:** vigente
+
+## DEC-006 · 2026-07-09 · Vercel es el destino de producción; Pages queda como espejo
+- **Contexto:** JP consiguió dominio propio y quiere producción en dominio propio con
+  deploy automático. GitHub Pages sirve una SPA de Vite pero (a) solo bajo subruta
+  `/juan-pablos-first-project/`, no en la raíz de un dominio, y (b) los deep links
+  (`/klokk`, `/yo`) devuelven HTTP 404 (con el `404.html` de fallback sirviendo el
+  contenido correcto, pero con status 404 — malo para SEO y para compartir enlaces).
+- **Decisión:** Vercel es la producción canónica. Config:
+  - `base` de Vite condicionado: raíz `/` cuando `process.env.VERCEL` está presente
+    (Vercel lo inyecta), subruta cuando es build de Pages. Una sola config sirve a
+    ambos destinos sin romper el espejo de Pages.
+  - `app/vercel.json`: rewrites SPA (`/(.*) → /index.html`) para que TODA ruta
+    profunda devuelva 200 con el shell de la app (el router del cliente resuelve).
+  - `installCommand: pnpm install --frozen-lockfile --ignore-scripts` en vercel.json:
+    Vercel sin `--ignore-scripts` falla con `ERR_PNPM_IGNORED_BUILDS` (esbuild) —
+    mismo caso que CI (AP-001). El flag es la fuente de verdad para ambos entornos.
+  - `packageManager: pnpm@11.7.0` en package.json: una sola fuente de versión de
+    pnpm para CI (pnpm/action-setup la lee de ahí) y para Vercel (corepack).
+  - Proyecto Vercel: rootDirectory `app`, framework `vite`, en el team de JP.
+- **Descartado:** migrar el repo a la raíz (romper la estructura `app/` estable); usar
+  `HashRouter` para evitar el problema de deep links en Pages (URLs feas con `#`).
+- **Consecuencias:** Pages sobrevive como espejo gratis + gate de calidad (lint/test);
+  Vercel es lo que apunta el dominio. Faltan 2 acciones de JP (PARA-HUMANO): conectar
+  la GitHub App de Vercel para el deploy-en-push, y agregar el dominio + DNS.
+- **Estado:** vigente
