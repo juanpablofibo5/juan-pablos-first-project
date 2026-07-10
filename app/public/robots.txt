@@ -1,0 +1,5 @@
+# Todos los buscadores pueden indexar todo.
+User-agent: *
+Allow: /
+
+Sitemap: https://jpfigueroa.com/sitemap.xml
