@@ -3,15 +3,18 @@
 > Doc VIVO: se edita, no se apenda. **Actualizado:** 2026-07-09 · por Claude (Fable 5)
 
 ## Ahora
-- **Producción en Vercel LIVE** (DEC-006): https://juan-pablos-first-project.vercel.app
-  sirve la app en la raíz con deep links a HTTP 200 (rewrites SPA). Deploy inicial a
-  prod por CLI ✓ verificado. Pages sigue como espejo + gate de calidad.
+- **Producción LIVE en dominio propio** (DEC-006): **https://jpfigueroa.com** sirve el
+  portafolio (HTTP 200, SSL, `www`→apex 308, deep links a 200 por rewrites SPA). El
+  dominio se movió del proyecto `casa-confianza` al portafolio con autorización de JP;
+  DNS ya apuntaba a Vercel (`verified` sin tocar Hostinger). Pages sigue como espejo.
+- **Falta 1 acción de JP (P1):** conectar la GitHub App de Vercel → deploy-en-push.
+  Mientras tanto, prod se actualiza por `vercel deploy --prod` (CLI).
 - **AUDIT 2026-07-b entregado** (revisión profunda del build de la tanda 2, fase C):
   calidad homogénea, deuda menor → B-015…B-020 en el backlog. Leer con `CHANGELOG.md`.
 
 ## Siguiente
-- **2 acciones de JP en `docs/PARA-HUMANO.md` (P1):** (1) conectar la GitHub App de
-  Vercel → deploy-en-push automático; (2) agregar el dominio + DNS (Hostinger↔Vercel).
+- **1 acción de JP en `docs/PARA-HUMANO.md` (P1):** conectar la GitHub App de Vercel
+  para deploy-en-push automático (el dominio ya quedó resuelto).
 - **Decisión de JP pendiente:** la siguiente fase del proyecto (opciones en
   `docs/PARA-HUMANO.md`; recomendación del agente: app real de Klokk).
 
